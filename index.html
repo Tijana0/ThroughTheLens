@@ -7,61 +7,59 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <script src="https://unpkg.com/scrollama@3.2.0/build/scrollama.min.js"></script>
+  <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
-  <div class="stars"></div>
+<div class="stars"></div>
 
-  <header class="cover">
-    <div>
-      <div class="crest">Project Base</div>
-      <h1>A scrollable history<br/>of every world<br/>we&rsquo;ve <em>almost</em> seen.</h1>
-      <p class="sub">Scroll the lens through two and a half centuries of discovery. Each dot is a confirmed exoplanet, plotted by orbital period and radius. Planets we&rsquo;ve seen clearly hold still. Planets with missing data flicker — we know they&rsquo;re there, but we don&rsquo;t have all their data.</p>
+<header class="cover">
+  <div>
+    <div class="crest">Project Base</div>
+    <h1>A scrollable history<br/>of every world<br/>we&rsquo;ve <em>almost</em> seen.</h1>
+    <p class="sub">Scroll the lens through two and a half centuries of discovery. Each dot is a confirmed exoplanet, plotted by orbital period and radius. Planets we&rsquo;ve seen clearly hold still. Planets with missing data flicker — we know they&rsquo;re there, but we don&rsquo;t have all their data.</p>
+  </div>
+</header>
+
+<div class="scroll-hint">
+  <span>Scroll</span><span class="bar"></span><span>1781 &rarr; 2017</span>
+</div>
+
+<section class="scrolly">
+  <div class="sticky">
+    <!-- left timeline -->
+    <div class="timeline-col">
+      <div class="yr-now"><span id="yr-display">Start</span></div>
+      <div class="timeline-axis"></div>
+      <svg class="timeline-svg" id="timeline-svg"></svg>
     </div>
-  </header>
 
-  <div class="scroll-hint">
-    <span>Scroll</span><span class="bar"></span><span>1781 &rarr; 2017</span>
+    <!-- lens -->
+    <div class="lens-col">
+      <svg class="lens-svg" id="lens-svg" viewBox="0 0 460 460"></svg>
+      <div class="lens-readout">
+      </div>
+    </div>
+
+    <!-- right col -->
+    <div class="right-col">
+      <div class="right-card narrative">
+        <div class="card-head"><span>NOTE</span> <span class="num" id="n-tag">Scene 01</span></div>
+        <div class="scene-label">
+          <div class="scene-year" id="n-year">Year</div>
+        </div>
+        <div class="scene-text" id="n-text">Content...</div>
+      </div>
+    </div>
   </div>
 
-  <section class="scrolly">
-    <div class="sticky">
-      <!-- left timeline -->
-      <div class="timeline-col">
-        <div class="yr-now"><span id="yr-display">Start</span></div>
-        <div class="timeline-axis"></div>
-        <svg class="timeline-svg" id="timeline-svg"></svg>
-      </div>
+  <!-- scroll triggers -->
+  <div class="steps" id="steps">
+    <div class="step" data-step="1"></div>
+    <div class="step" data-step="2"></div>
+    <div class="step" data-step="3"></div>
+  </div>
+</section>
 
-      <!-- lens -->
-      <div class="lens-col">
-        <svg class="lens-svg" id="lens-svg" viewBox="0 0 460 460"></svg>
-        <div class="lens-readout">
-        </div>
-      </div>
-
-      <!-- right col -->
-      <div class="right-col">
-        <div class="right-card narrative">
-          <div class="card-head"><span>NOTE</span> <span class="num" id="n-tag">Scene 01</span></div>
-          <div class="scene-label">
-            <div class="scene-year" id="n-year">Year</div>
-          </div>
-          <div class="scene-text" id="n-text">Content...</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- scroll triggers -->
-    <div class="steps" id="steps">
-      <div class="step" data-step="1"></div>
-      <div class="step" data-step="2"></div>
-      <div class="step" data-step="3"></div>
-    </div>
-  </section>
-
-  <script src="app.js"></script>
+<script type="module" src="./src/main.js"></script>
 </body>
 </html>
