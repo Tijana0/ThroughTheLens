@@ -51,8 +51,10 @@ export function drawLens(svg) {
             .attr('stroke-width', big ? 1 : 0.7);
     }
 
-    const lensArea = svg.append('g')
+    const lensOuter = svg.append('g')
         .attr('clip-path', 'url(#lens-clip)');
+
+    const lensArea = lensOuter.append('g'); // zoom moves this one
 
     return lensArea;
 }
