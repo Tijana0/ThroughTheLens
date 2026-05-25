@@ -1,38 +1,38 @@
 import * as d3 from 'd3';
-import scrollama from 'scrollama';
+import './style.css';
+import {drawLens} from "./lens.js";
 
-d3.csv('/data/OpenExoplanetCatalogue.csv').then(data => {
-    console.log("Data loaded:", data);
+const data = await d3.dsv(';', '/data/OpenExoplanetCatalogue.csv', row => ({
+    planetIdentifier:     row.PlanetIdentifier,      // planet name, e.g. "HD 143761 b"
+    typeFlag:            +row.TypeFlag,              // 0=planet, 1=binary orbit, 2=circumbinary, 3=pulsar
+    planetaryMassJpt:    +row.PlanetaryMassJpt,      // planet mass in Jupiter masses
+    radiusJpt:           +row.RadiusJpt,             // planet radius in Jupiter radii
+    periodDays:          +row.PeriodDays,            // orbital period in days
+    semiMajorAxisAU:     +row.SemiMajorAxisAU,       // orbit size in AU (1 = Earth-Sun distance)
+    eccentricity:        +row.Eccentricity,          // orbit shape: 0 = circle, 1 = parabolic
+    periastronDeg:       +row.PeriastronDeg,         // angle of closest point in orbit (degrees)
+    longitudeDeg:        +row.LongitudeDeg,          // orbital longitude reference angle (degrees)
+    ascendingNodeDeg:    +row.AscendingNodeDeg,      // where orbit crosses the reference plane (degrees)
+    inclinationDeg:      +row.InclinationDeg,        // orbit tilt: 90° = edge-on to us
+    surfaceTempK:        +row.SurfaceTempK,          // estimated surface temperature in Kelvin
+    ageGyr:              +row.AgeGyr,                // planet age in billions of years
+    discoveryMethod:      row.DiscoveryMethod,       // how it was found, e.g. "RV", "Transit", "Imaging"
+    discoveryYear:       +row.DiscoveryYear,         // year of discovery
+    lastUpdated:          row.LastUpdated,           // last catalogue update (YY/MM/DD)
+    rightAscension:       row.RightAscension,        // sky position: like longitude (HH MM SS)
+    declination:          row.Declination,           // sky position: like latitude (±DD MM SS)
+    distFromSunParsec:   +row.DistFromSunParsec,     // distance from Sun in parsecs (1pc ≈ 3.26 ly)
+    hostStarMassSlrMass: +row.HostStarMassSlrMass,   // host star mass in solar masses (1 = our Sun)
+    hostStarRadiusSlrRad:+row.HostStarRadiusSlrRad,  // host star radius in solar radii
+    hostStarMetallicity: +row.HostStarMetallicity,   // star metal content vs Sun (log scale, 0 = solar)
+    hostStarTempK:       +row.HostStarTempK,         // host star surface temperature in Kelvin
+    hostStarAgeGyr:      +row.HostStarAgeGyr,        // host star age in billions of years
+    listsPlanetIsOn:      row.ListsPlanetIsOn,       // catalogue category, e.g. "Confirmed planets"
+}));
 
-    const lensSvg = d3.select('#lens-svg');
-    const width = 460;
-    const height = 460;
+console.log('Data loaded:', data);
 
-    lensSvg.append("text")
-        .attr("x", width/2)
-        .attr("y", height/2)
-        .attr("text-anchor", "middle")
-        .attr("fill", "var(--ink-3)")
-        .text("D3 Viewport");
+const svg = d3.select('#lens-svg');
+drawLens(svg);
 
-    const scroller = scrollama();
-
-    function handleStepEnter(response) {
-        console.log("Step entered:", response.index);
-        // response.element, response.direction, response.index
-        const el = d3.select(response.element);
-
-        d3.select('#n-tag').text(`Scene 0${response.index + 1}`);
-        d3.select('#n-text').text(`You are currently on step ${response.index + 1}`);
-    }
-
-    scroller
-        .setup({
-            step: '.step',
-            offset: 0.5,
-            debug: false
-        })
-        .onStepEnter(handleStepEnter);
-
-    window.addEventListener('resize', scroller.resize);
-});
+const lensArea = drawLens(svg);
