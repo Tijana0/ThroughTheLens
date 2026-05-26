@@ -8,6 +8,7 @@ import CompletenessChart from "./CompletenessChart.js";
 import HabitabilityChart from "./HabitabilityChart.js";
 import CoverageChart from "./CoverageChart.js";
 import DiscoveryShareChart from "./DiscoveryShareChart.js";
+import HotJupitersChart from "./HotJupitersChart.js";
 
 // parsing functions
 function parseRA(str) {
@@ -82,6 +83,10 @@ const yieldChart = new YieldChart(data, {
 
 const completenessChart = new CompletenessChart(data, {
     parentElement: '#g-complete'
+});
+
+const hotJupitersChart = new HotJupitersChart(data, {
+    parentElement: '#p1-svg'
 });
 
 const habitabilityChart = new HabitabilityChart(data, {

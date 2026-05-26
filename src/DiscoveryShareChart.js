@@ -65,7 +65,7 @@ export default class DiscoveryShareChart {
                 const pct = (d.data.count / total * 100).toFixed(1);
                 d3.select('#p4-note').html(
                     `<b style="color:${d.data.color}">${d.data.label.toUpperCase()}</b> · ${d.data.count.toLocaleString()} planets · ${pct}% &nbsp;—&nbsp; e.g. ` +
-                    d.data.examples.join(', ')
+                    d.data.examples.map(n => `<span style="color:#aab2c8">${n}</span>`).join(' · ')
                 );
             })
             .on('mouseleave', (event, d) => {
@@ -75,5 +75,68 @@ export default class DiscoveryShareChart {
                 
                 d3.select('#p4-note').text('Hover a wedge · examples appear here');
             });
+
+        // Center caption
+        this.g.append('text')
+            .attr('text-anchor', 'middle')
+            .attr('y', -8)
+            .attr('font-family', 'var(--serif)')
+            .attr('font-size', 28)
+            .attr('fill', '#fff')
+            .text(total.toLocaleString());
+        
+        this.g.append('text')
+            .attr('text-anchor', 'middle')
+            .attr('y', 10)
+            .attr('font-family', 'var(--mono)')
+            .attr('font-size', 8.5)
+            .attr('fill', '#aab2c8')
+            .attr('letter-spacing', '0.24em')
+            .text('CONFIRMED');
+
+        this.g.append('text')
+            .attr('text-anchor', 'middle')
+            .attr('y', 22)
+            .attr('font-family', 'var(--mono)')
+            .attr('font-size', 8.5)
+            .attr('fill', '#6a7390')
+            .attr('letter-spacing', '0.1em')
+            .text('1992–2017');
+
+        // Legend on right (Centered vertically)
+        const legendRowHeight = 32;
+        const legendTotalHeight = processedData.length * legendRowHeight;
+        const lgX = this.cx + this.R + 60;
+        const lgY = this.cy - (legendTotalHeight / 2) + 6; // Center relative to cy
+
+        const lg = this.svg.append('g')
+            .attr('transform', `translate(${lgX}, ${lgY})`);
+
+        processedData.forEach((d, i) => {
+            const row = lg.append('g')
+                .attr('transform', `translate(0, ${i * 32})`);
+            
+            row.append('rect')
+                .attr('width', 10)
+                .attr('height', 10)
+                .attr('fill', d.color);
+            
+            row.append('text')
+                .attr('x', 18)
+                .attr('y', 9)
+                .attr('font-family', 'var(--mono)')
+                .attr('font-size', 10)
+                .attr('fill', '#e8ecf5')
+                .text(d.label.toUpperCase());
+
+            const pct = (d.count / total * 100).toFixed(1);
+            row.append('text')
+                .attr('x', 18)
+                .attr('y', 22)
+                .attr('font-family', 'var(--mono)')
+                .attr('font-size', 9)
+                .attr('fill', '#6a7390')
+                .text(`${d.count.toLocaleString()} planets · ${pct}%`);
+        });
     }
 }

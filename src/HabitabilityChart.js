@@ -142,6 +142,8 @@ export default class HabitabilityChart {
     }
 
     render() {
+        const tip = d3.select('#tip');
+
         // Exoplanets
         this.g.append('g').selectAll('.exo-dot')
             .data(this.exoData)
@@ -149,9 +151,27 @@ export default class HabitabilityChart {
             .attr('class', 'exo-dot')
             .attr('cx', d => this.xScale(Math.max(0.005, Math.min(3, d.radiusJpt))))
             .attr('cy', d => this.yScale(Math.max(0.1, Math.min(200000, d.periodDays))))
-            .attr('r', 1.8)
+            .attr('r', 2)
             .attr('fill', '#f0a830')
-            .attr('opacity', 0.2);
+            .attr('opacity', 0.25)
+            .style('cursor', 'crosshair')
+            .on('mouseenter', (event, d) => {
+                tip.classed('show', true);
+                d3.select('#tip-name').text(d.planetIdentifier);
+                d3.select('#tip-body').html(`
+                    RADIUS: ${d.radiusJpt.toFixed(2)} Rj<br/>
+                    PERIOD: ${d.periodDays.toFixed(1)} days
+                `);
+                d3.select(event.currentTarget).attr('r', 5).attr('opacity', 1);
+            })
+            .on('mousemove', (event) => {
+                tip.style('left', (event.clientX + 20) + 'px')
+                   .style('top', (event.clientY - 20) + 'px');
+            })
+            .on('mouseleave', (event) => {
+                tip.classed('show', false);
+                d3.select(event.currentTarget).attr('r', 2).attr('opacity', 0.25);
+            });
 
         // Solar System
         this.g.append('g').selectAll('.ss-dot')
@@ -160,21 +180,24 @@ export default class HabitabilityChart {
             .attr('class', 'ss-dot')
             .attr('cx', d => this.xScale(d.radiusJpt))
             .attr('cy', d => this.yScale(d.periodDays))
-            .attr('r', 4)
+            .attr('r', 5)
             .attr('fill', '#ffffff')
             .attr('stroke', '#000000')
-            .attr('stroke-width', 0.5);
-
-        // Solar System Labels
-        this.g.append('g').selectAll('.ss-label')
-            .data(this.ssData)
-            .join('text')
-            .attr('class', 'ss-label')
-            .attr('x', d => this.xScale(d.radiusJpt) + 6)
-            .attr('y', d => this.yScale(d.periodDays) + 3)
-            .attr('fill', '#dfe5f3')
-            .attr('font-size', '9px')
-            .text(d => d.planetIdentifier);
+            .attr('stroke-width', 0.5)
+            .on('mouseenter', (event, d) => {
+                tip.classed('show', true);
+                d3.select('#tip-name').text(d.planetIdentifier.toUpperCase());
+                d3.select('#tip-body').html(`
+                    RADIUS: ${d.radiusJpt.toFixed(3)} Rj<br/>
+                    PERIOD: ${d.periodDays.toFixed(1)} days<br/>
+                    <span style="color:var(--white)">[SOLAR SYSTEM REFERENCE]</span>
+                `);
+            })
+            .on('mousemove', (event) => {
+                tip.style('left', (event.clientX + 20) + 'px')
+                   .style('top', (event.clientY - 20) + 'px');
+            })
+            .on('mouseleave', () => tip.classed('show', false));
 
         // Style axes lines
         this.svg.selectAll('.axis line, .axis path').attr('stroke', '#3a425c');
