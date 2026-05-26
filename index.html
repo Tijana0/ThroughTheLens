@@ -60,6 +60,22 @@
   </div>
 </section>
 
+
+<!-- DISCOVERY TIMELINE -->
+<div class="tl-bar">
+  <span class="tl-bar-label">Discovery Timeline</span>
+  <span class="tl-bar-hint">drag to scroll</span>
+  <div class="tl-bar-legend">
+    <div class="tl-leg-item"><div class="tl-leg-dot" style="background:#4a9ef0;box-shadow:0 0 5px #4a9ef066"></div>Transit</div>
+    <div class="tl-leg-item"><div class="tl-leg-dot" style="background:#f0a830;box-shadow:0 0 5px #f0a83066"></div>Radial Velocity</div>
+    <div class="tl-leg-item"><div class="tl-leg-dot" style="background:#c070f8;box-shadow:0 0 5px #c070f866"></div>Imaging</div>
+    <div class="tl-leg-item"><div class="tl-leg-dot" style="background:#5fb47c;box-shadow:0 0 5px #5fb47c66"></div>Microlensing</div>
+    <div class="tl-leg-item"><div class="tl-leg-dot" style="background:#e0524d;box-shadow:0 0 5px #e0524d66"></div>Pulsar</div>
+    <div class="tl-leg-item"><div class="tl-leg-dot" style="background:#6a7390"></div>Other</div>
+  </div>
+  <span class="tl-bar-count" id="tl-count"></span>
+</div>
+
 <div id="tooltip" class="tooltip">
   <div class="tooltip-content">
     <!-- JS fills this in dynamically -->
@@ -67,5 +83,18 @@
 </div>
 
 <script type="module" src="./src/main.js"></script>
+
+
+<!-- SCROLLABLE TIMELINE-->
+<div class="planet-timeline-wrap">
+  <div class="tl-header">
+    <span class="tl-header-label">Discovery Timeline</span>
+    <span class="tl-header-count" id="tl-count">— planets</span>
+  </div>
+  <div class="tl-scroll" id="tl-scroll">
+    <div class="tl-inner" id="tl-inner"></div>
+  </div>
+</div>
+
 </body>
 </html>
