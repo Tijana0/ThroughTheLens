@@ -58,13 +58,14 @@ export default class PlanetsChart {
         );
 
         this.filteredData.forEach(d => {
-            d.isIncomplete = isNaN(d.planetaryMassJpt) ||
-                isNaN(d.radiusJpt) ||
-                isNaN(d.periodDays) ||
-                isNaN(d.surfaceTempK) ||
-                isNaN(d.distFromSunParsec) ||
-                isNaN(d.hostStarTempK) ||
-                !d.discoveryMethod;
+            // Use the original capitalized keys from the merged dataset
+            d.isIncomplete = isNaN(d.PlanetaryMassJpt) ||
+                isNaN(d.RadiusJpt) ||
+                isNaN(d.PeriodDays) ||
+                isNaN(d.SurfaceTempK) ||
+                isNaN(d.DistFromSunParsec) ||
+                isNaN(d.HostStarTempK) ||
+                !d.DiscoveryMethod;
         });
 
         this.sizeScale.domain(d3.extent(this.filteredData, d => d.radiusJpt));
@@ -87,23 +88,26 @@ const circles = lensArea.selectAll('.planet')
 
 
         circles.on('mouseover', (event, d) => {
-            d3.select('#tooltip')
-                .style('opacity', 1)
-                .style('left', (event.pageX + 12) + 'px')
-                .style('top',  (event.pageY - 28) + 'px')
-                .select('.tooltip-content')
-                .html(`
-                    <div><strong>${d.planetIdentifier}</strong></div>
-                    <div>Year: ${isNaN(d.discoveryYear) || d.discoveryYear === 0 ? '—' : d.discoveryYear}</div>
-                    <div>Method: ${d.discoveryMethod || '—'}</div>
-                    <div>Period: ${isNaN(d.periodDays) || d.periodDays === 0 ? '—' : d.periodDays.toFixed(1)} days</div>
-                    <div>Radius: ${isNaN(d.radiusJpt) || d.radiusJpt === 0 ? '—' : d.radiusJpt.toFixed(2)} Rjpt</div>
-                    <div>Mass: ${isNaN(d.planetaryMassJpt) || d.planetaryMassJpt === 0 ? '—' : d.planetaryMassJpt.toFixed(2)} Mjpt</div>
-                `);
+            const tip = d3.select('#tip');
+            tip.classed('show', true);
+            d3.select('#tip-name').text(d.planetIdentifier);
+            d3.select('#tip-body').html(`
+                <div class="t-row"><span class="label">Discovery Year</span><span class="val">${isNaN(d.DiscoveryYear) || d.DiscoveryYear === 0 ? '—' : d.DiscoveryYear}</span></div>
+                <div class="t-row"><span class="label">Method</span><span class="val">${d.DiscoveryMethod || '—'}</span></div>
+                <div class="t-row"><span class="label">Period</span><span class="val">${isNaN(d.PeriodDays) || d.PeriodDays === 0 ? '—' : d.PeriodDays.toFixed(1)} days</span></div>
+                <div class="t-row"><span class="label">Radius</span><span class="val">${isNaN(d.RadiusJpt) || d.RadiusJpt === 0 ? '—' : d.RadiusJpt.toFixed(2)} Rjpt</span></div>
+                <div class="t-row"><span class="label">Mass</span><span class="val">${isNaN(d.PlanetaryMassJpt) || d.PlanetaryMassJpt === 0 ? '—' : d.PlanetaryMassJpt.toFixed(2)} Mjpt</span></div>
+            `);
+        });
+
+        circles.on('mousemove', (event) => {
+            d3.select('#tip')
+                .style('left', (event.clientX + 20) + 'px')
+                .style('top',  (event.clientY - 20) + 'px');
         });
 
         circles.on('mouseleave', () => {
-            d3.select('#tooltip').style('opacity', 0);
+            d3.select('#tip').classed('show', false);
         });
     }
 }
