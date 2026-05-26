@@ -29,7 +29,7 @@ export default class PlanetsChart {
             .range([3,10]);
 
         this.colorScale = d3.scaleOrdinal()
-            .domain(['RV', 'transit', 'imaging', 'microlensing', 'timing'])
+            .domain(['transit', 'RV', 'imaging', 'microlensing', 'timing'])
             .range(['#f0a830', '#4a9ef0', '#c070f8', '#5fb47c', '#ffffff']);
 
         this.opacityScale = d3.scaleLinear()
@@ -44,11 +44,12 @@ export default class PlanetsChart {
         d3.select(this.config.parentElement).call(zoom);
     }
 
-    updateViz() {
+    updateViz(year) {
 
         this.filteredData = this.data.filter(d =>
             !isNaN(d.rightAscension) &&
-            !isNaN(d.declination)
+            !isNaN(d.declination) &&
+            (!year || d.discoveryYear <= year)
         );
 
         this.xScale.domain(d3.extent(this.filteredData, d => d.rightAscension));

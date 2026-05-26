@@ -56,12 +56,16 @@ header.cover {
 header.cover h1 {
   font-family: var(--serif); font-size: 76px; margin: 6px 0 12px;
 }
-.scroll-hint {
-  max-width: 1320px; margin: 0 auto; padding: 0 40px 12px;
-  display: flex; gap: 12px; align-items: center; color: var(--ink-3);
-  text-transform: uppercase;
+
+.crest {
+  display: block; 
+  font-family: var(--mono); 
+  font-size: 9px; 
+  letter-spacing: 0.3em;
+  color: var(--ink-3); 
+  text-transform: uppercase; 
+  margin-top: 6px;
 }
-.scroll-hint .bar { flex: 1; height: 1px; background: var(--rule); }
 
 .scrolly {
   position: relative; z-index: 2;
@@ -90,45 +94,149 @@ header.cover h1 {
 }
 
 .right-col { 
-  display: flex; 
-  flex-direction: column; 
-  gap: 24px; 
+  display: grid; 
+  grid-template-rows: 1fr 1fr; 
+  gap: 18px; 
+  height: 100%;
+  padding-top: 4px;
 }
 
-.chart-panel {
-  border: 1px solid var(--rule);
-  background: rgba(10,15,36,0.35);
-  padding: 16px;
-  display: flex;
+.right-card {
+  border: 1px solid var(--rule); 
+  background: rgba(10,15,36,0.35); 
+  padding: 16px 18px;
+  display: flex; 
+  flex-direction: column; 
+  min-height: 0;
+}
+
+.card-head {
+  display: flex; 
+  justify-content: space-between; 
+  align-items: baseline; 
+  margin-bottom: 8px;
+  font-size: 9.5px; 
+  letter-spacing: 0.28em; 
+  color: var(--ink-3); 
+  text-transform: uppercase;
+}
+
+.card-head .num { color: var(--ink-3); }
+
+.right-card.graphs {
+  display: grid; 
+  grid-template-rows: auto 1fr auto 1fr; 
+  gap: 4px;
+}
+
+.right-card.graphs h3 {
+  font-family: var(--mono); 
+  font-size: 9.5px; 
+  color: var(--ink-3); 
+  margin: 0;
+  letter-spacing: 0.22em; 
+  text-transform: uppercase; 
+  font-weight: 500;
+}
+
+.right-card.graphs svg { 
+  width: 100%; 
+  height: 100%; 
+  display: block; 
+  min-height: 90px; 
+}
+
+.narrative {
+  flex: 1; 
+  display: flex; 
   flex-direction: column;
 }
 
-.panel-header {
-  font-size: 10px;
+.narrative .scene-label {
+  display: inline-flex; 
+  align-items: baseline; 
+  gap: 12px; 
+  margin-bottom: 6px;
+}
+
+.narrative .scene-year {
+  font-family: var(--serif); 
+  font-size: 56px; 
+  line-height: 0.9; 
+  color: var(--amber);
+}
+
+.narrative .scene-text {
+  font-family: var(--serif); 
+  font-size: 17px; 
+  line-height: 1.4; 
+  color: var(--ink-1);
+  margin-top: 4px;
+}
+
+.narrative .scene-foot {
+  margin-top: auto; 
+  padding-top: 12px; 
+  border-top: 1px dashed var(--rule);
+  display: flex; 
+  justify-content: space-between; 
+  font-size: 10.5px; 
+  color: var(--ink-3);
+}
+
+.highlight-line {
+  pointer-events: none;
+}
+
+.legend {
+  display: flex;
+  gap: 12px;
+  margin: 4px 0 8px;
+  font-size: 8.5px;
   color: var(--ink-3);
   text-transform: uppercase;
-  margin-bottom: 12px;
-  letter-spacing: 0.05em;
-  border-bottom: 1px solid var(--rule-soft);
-  padding-bottom: 6px;
+  letter-spacing: 0.12em;
 }
 
-.chart-container {
-  flex: 1;
-  min-height: 180px;
-  background: rgba(0,0,0,0.1);
-  border: 1px dashed var(--rule-soft);
+.legend span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.right-panel {
-  flex: 1;
+.legend .sw {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
 }
 
-.bottom-panel {
-  min-height: 240px;
+.axis line, .axis path {
+  stroke: var(--rule-soft);
 }
-.right-card {
-  border: 1px solid var(--rule); background: rgba(10,15,36,0.35); padding: 16px 18px;
+
+.axis text {
+  fill: var(--ink-4);
+  font-family: var(--mono);
 }
+
+.timeline-axis {
+  position: absolute; left: 22px; top: 110px; bottom: 28px; width: 1px;
+  background: linear-gradient(to bottom, var(--rule) 0%, var(--rule) 100%);
+}
+
+.timeline-axis::before, .timeline-axis::after {
+  content: ''; position: absolute; left: -3px; width: 7px; height: 1px; background: var(--ink-3);
+}
+
+.timeline-axis::before { top: 0; }
+
 .steps { position: relative; margin-top: -100vh; pointer-events: none; }
 .step { height: 100vh; }
+
+/* Scroll Hint refinements */
+.scroll-hint {
+  max-width: 1320px; margin: 0 auto; padding: 0 40px 12px;
+  display: flex; gap: 12px; align-items: center; color: var(--ink-4);
+  text-transform: uppercase; font-size: 10px; letter-spacing: 0.1em;
+}
+.scroll-hint .bar { flex: 1; height: 1px; background: var(--rule-soft); }
