@@ -84,6 +84,64 @@
   </div>
 </section>
 
+<div class="deck">
+  <div class="panel">
+    <div class="crest"><span>Panel 01</span><span>Scatter · log–lin</span></div>
+    <h3>Hot Jupiters cluster around metal&#8209;rich suns.</h3>
+    <p class="blurb">Each dot is a confirmed exoplanet, plotted against its host star&rsquo;s iron abundance. The pile&#8209;up on the right — short&#8209;period gas giants around chemically enriched stars — is one of the strongest patterns in the catalogue.</p>
+    <div class="body"><svg id="p1-svg" viewBox="0 0 620 360" preserveAspectRatio="xMidYMid meet"></svg></div>
+    <div class="legend">
+      <span><span class="sw" style="background:#f0a830"></span>Transit</span>
+      <span><span class="sw" style="background:#4a9ef0"></span>Radial velocity</span>
+      <span><span class="sw" style="background:#c070f8"></span>Imaging / µlens / timing</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="crest"><span>Panel 02</span><span>Bubble · log–log</span></div>
+    <h3>Earth lives in the dark.</h3>
+    <p class="blurb">All confirmed exoplanets in faint amber, our Solar System in white. The shaded region — small planets on long orbits — is where current methods go blind. Earth would not yet be discoverable from this catalogue.</p>
+    <div class="body"><svg id="p2-svg" viewBox="0 0 620 360" preserveAspectRatio="xMidYMid meet"></svg></div>
+  </div>
+
+  <div class="panel">
+    <div class="crest"><span>Panel 03</span><span>Coverage · 25 fields</span></div>
+    <h3>The columns we leave blank.</h3>
+    <p class="blurb">Fill rate across every attribute. Identity and timing are essentially complete; the physics of the planet itself thins out fast. <span style="color:var(--amber)">AgeGyr</span> is filled for less than 1 % of catalogued worlds.</p>
+    <div class="body"><svg id="p3-svg" viewBox="0 0 620 500" preserveAspectRatio="xMidYMid meet"></svg></div>
+  </div>
+
+  <div class="panel">
+    <div class="crest"><span>Panel 04</span><span>Donut · share of N</span></div>
+    <h3>Who found them.</h3>
+    <p class="blurb">Discovery method, expressed as a share of every confirmed planet in the catalogue. Hover any wedge for example bodies. All entries are drawn from peer&#8209;reviewed announcements.</p>
+    <div class="body"><svg id="p4-svg" viewBox="0 0 620 360" preserveAspectRatio="xMidYMid meet"></svg></div>
+    <div id="p4-note" style="margin-top:10px; color:var(--ink-3); font-size:10.5px; letter-spacing:0.16em; text-transform:uppercase;">Hover a wedge · examples appear here</div>
+  </div>
+</div>
+
+<footer class="foot">
+  <div>
+    <b>Method</b>
+    Year cursor is driven by scroll position; dots animate in as each year resolves. Planets with missing physical fields glitch in proportion to how thin their record is. All visualisations are SVG, rendered with D3.
+  </div>
+  <div>
+    <b>Honest caveats</b>
+    The Open Exoplanet Catalogue is community-maintained and reflects publication bias toward bright, nearby, transit-friendly stars. Absences here are not evidence of empty space.
+  </div>
+  <div>
+    <b>Read more</b>
+    <a href="https://www.openexoplanetcatalogue.com">openexoplanetcatalogue.com</a><br/>
+    <a href="https://exoplanetarchive.ipac.caltech.edu">NASA Exoplanet Archive</a><br/>
+    <a href="https://exoplanets.nasa.gov">NASA Exoplanet Exploration</a>
+  </div>
+</footer>
+
+<div class="tip" id="tip">
+  <div class="t-name" id="tip-name">—</div>
+  <div id="tip-body"></div>
+</div>
+
 <script type="module" src="./src/main.js"></script>
 </body>
 </html>

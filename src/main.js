@@ -5,6 +5,7 @@ import {drawLens} from "./lens.js";
 import PlanetsChart from "./PlanetsChart.js";
 import YieldChart from "./YieldChart.js";
 import CompletenessChart from "./CompletenessChart.js";
+import HotJupitersChart from "./HotJupitersChart.js";
 
 // parsing functions
 function parseRA(str) {
@@ -20,19 +21,25 @@ function parseDec(str) {
     return sign * (Math.abs(parts[0]) + parts[1] / 60 + parts[2] / 3600);
 }
 
-const data = await d3.dsv(';', '/data/OpenExoplanetCatalogue.csv', row => ({
-    planetIdentifier: row.PlanetIdentifier,
-    radiusJpt: +row.RadiusJpt,
-    planetaryMassJpt: +row.PlanetaryMassJpt,
-    periodDays: +row.PeriodDays,
-    semiMajorAxisAU: +row.SemiMajorAxisAU,
-    surfaceTempK: +row.SurfaceTempK,
-    discoveryMethod:      row.DiscoveryMethod,
-    discoveryYear:       +row.DiscoveryYear,
-    rightAscension: parseRA(row.RightAscension),
-    declination:    parseDec(row.Declination),
-    distFromSunParsec:   +row.DistFromSunParsec,
-}));
+const data = await d3.dsv(';', '/data/OpenExoplanetCatalogue.csv', row => {
+    // Helper to parse numbers and keep empty/invalid as NaN
+    const n = (v) => v === "" ? NaN : +v;
+
+    return {
+        planetIdentifier: row.PlanetIdentifier,
+        radiusJpt: n(row.RadiusJpt),
+        planetaryMassJpt: n(row.PlanetaryMassJpt),
+        periodDays: n(row.PeriodDays),
+        semiMajorAxisAU: n(row.SemiMajorAxisAU),
+        surfaceTempK: n(row.SurfaceTempK),
+        discoveryMethod:      row.DiscoveryMethod,
+        discoveryYear:       n(row.DiscoveryYear),
+        rightAscension: parseRA(row.RightAscension),
+        declination:    parseDec(row.Declination),
+        distFromSunParsec:   n(row.DistFromSunParsec),
+        hostStarMetallicity: n(row.HostStarMetallicity),
+    };
+});
 
 const svg = d3.select('#lens-svg');
 const lensArea = drawLens(svg);
@@ -48,6 +55,10 @@ const yieldChart = new YieldChart(data, {
 
 const completenessChart = new CompletenessChart(data, {
     parentElement: '#g-complete'
+});
+
+const hotJupitersChart = new HotJupitersChart(data, {
+    parentElement: '#p1-svg'
 });
 
 // Timeline Point (Scrubber) Setup
