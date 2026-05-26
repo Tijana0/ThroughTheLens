@@ -15,6 +15,11 @@ export function drawLens(svg) {
         .attr('cy', LCY)
         .attr('r', LR - 18);
 
+    const glitchFilter = defs.append('filter')
+        .attr('id', 'glitch')
+        .attr('x', '-50%').attr('y', '-50%')
+        .attr('width', '200%').attr('height', '200%');
+
     // outer dial ring
     svg.append('circle')
         .attr('cx', LCX)

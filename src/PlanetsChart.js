@@ -51,6 +51,16 @@ export default class PlanetsChart {
             !isNaN(d.declination)
         );
 
+        this.filteredData.forEach(d => {
+            d.isIncomplete = isNaN(d.planetaryMassJpt) ||
+                isNaN(d.radiusJpt) ||
+                isNaN(d.periodDays) ||
+                isNaN(d.surfaceTempK) ||
+                isNaN(d.distFromSunParsec) ||
+                isNaN(d.hostStarTempK) ||
+                !d.discoveryMethod;
+        });
+
         this.xScale.domain(d3.extent(this.filteredData, d => d.rightAscension));
         this.yScale.domain(d3.extent(this.filteredData, d => d.declination));
         this.sizeScale.domain(d3.extent(this.filteredData, d => d.radiusJpt));
@@ -68,6 +78,7 @@ export default class PlanetsChart {
             .attr('class', 'planet')
             .attr('fill', d => this.colorScale(d.discoveryMethod))
             .attr('opacity', d => isNaN(d.distFromSunParsec) ? 0.5 : this.opacityScale(d.distFromSunParsec))
+            .attr('class', d => d.isIncomplete ? 'planet glitch' : 'planet')
             .attr('cx', d => this.xScale(d.rightAscension))
             .attr('cy', d => this.yScale(d.declination))
             .attr('r', d => isNaN(d.radiusJpt) ? 2 : this.sizeScale(d.radiusJpt));
@@ -80,13 +91,13 @@ export default class PlanetsChart {
                 .style('top',  (event.pageY - 28) + 'px')
                 .select('.tooltip-content')
                 .html(`
-            <div><strong>${d.planetIdentifier}</strong></div>
-            <div>Year: ${isNaN(d.discoveryYear) ? '—' : d.discoveryYear}</div>
-            <div>Method: ${d.discoveryMethod || '—'}</div>
-            <div>Period: ${isNaN(d.periodDays) ? '—' : d.periodDays.toFixed(1)} days</div>
-            <div>Radius: ${isNaN(d.radiusJpt) ? '—' : d.radiusJpt.toFixed(2)} Rjpt</div>
-            <div>Mass: ${isNaN(d.planetaryMassJpt) ? '—' : d.planetaryMassJpt.toFixed(2)} Mjpt</div>
-        `);
+                    <div><strong>${d.planetIdentifier}</strong></div>
+                    <div>Year: ${isNaN(d.discoveryYear) || d.discoveryYear === 0 ? '—' : d.discoveryYear}</div>
+                    <div>Method: ${d.discoveryMethod || '—'}</div>
+                    <div>Period: ${isNaN(d.periodDays) || d.periodDays === 0 ? '—' : d.periodDays.toFixed(1)} days</div>
+                    <div>Radius: ${isNaN(d.radiusJpt) || d.radiusJpt === 0 ? '—' : d.radiusJpt.toFixed(2)} Rjpt</div>
+                    <div>Mass: ${isNaN(d.planetaryMassJpt) || d.planetaryMassJpt === 0 ? '—' : d.planetaryMassJpt.toFixed(2)} Mjpt</div>
+`)
         });
 
         circles.on('mouseleave', () => {
