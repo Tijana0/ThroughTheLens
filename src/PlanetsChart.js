@@ -33,7 +33,7 @@ export default class PlanetsChart {
             .range(['#f0a830', '#4a9ef0', '#c070f8', '#5fb47c', '#ffffff']);
 
         this.opacityScale = d3.scaleLinear()
-            .range([1, 0.05]);
+            .range([0.7, 0.05]);
 
         const zoom = d3.zoom()
             .scaleExtent([1, 8])  // min zoom 1x, max zoom 8x
@@ -71,5 +71,26 @@ export default class PlanetsChart {
             .attr('cx', d => this.xScale(d.rightAscension))
             .attr('cy', d => this.yScale(d.declination))
             .attr('r', d => isNaN(d.radiusJpt) ? 2 : this.sizeScale(d.radiusJpt));
+
+
+        circles.on('mouseover', (event, d) => {
+            d3.select('#tooltip')
+                .style('opacity', 1)
+                .style('left', (event.pageX + 12) + 'px')
+                .style('top',  (event.pageY - 28) + 'px')
+                .select('.tooltip-content')
+                .html(`
+            <div><strong>${d.planetIdentifier}</strong></div>
+            <div>Year: ${isNaN(d.discoveryYear) ? '—' : d.discoveryYear}</div>
+            <div>Method: ${d.discoveryMethod || '—'}</div>
+            <div>Period: ${isNaN(d.periodDays) ? '—' : d.periodDays.toFixed(1)} days</div>
+            <div>Radius: ${isNaN(d.radiusJpt) ? '—' : d.radiusJpt.toFixed(2)} Rjpt</div>
+            <div>Mass: ${isNaN(d.planetaryMassJpt) ? '—' : d.planetaryMassJpt.toFixed(2)} Mjpt</div>
+        `);
+        });
+
+        circles.on('mouseleave', () => {
+            d3.select('#tooltip').style('opacity', 0);
+        });
     }
 }
