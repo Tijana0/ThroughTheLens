@@ -431,14 +431,6 @@ footer.foot a {
 .steps { position: relative; margin-top: -100vh; pointer-events: none; }
 .step { height: 100vh; }
 
-/* Scroll Hint refinements */
-.scroll-hint {
-  max-width: 1320px; margin: 0 auto; padding: 0 40px 12px;
-  display: flex; gap: 12px; align-items: center; color: var(--ink-4);
-  text-transform: uppercase; font-size: 10px; letter-spacing: 0.1em;
-}
-.scroll-hint .bar { flex: 1; height: 1px; background: var(--rule-soft); }
-
 #tooltip {
   background: var(--panel);
   border: 1px solid var(--rule);
@@ -469,3 +461,120 @@ circle.glitch {
   animation: glitch 1s infinite steps(1);
   mix-blend-mode: screen;
 }
+
+/* Planet Timeline Styles (from main) */
+.planet-timeline-wrap {
+  position: relative;
+  z-index: 5;
+  margin: 40px auto;
+  max-width: 1320px;
+  padding: 0 40px;
+}
+
+.tl-header {
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.tl-header-label {
+  font-family: var(--serif);
+  font-size: 32px;
+  color: var(--ink-1);
+}
+
+.tl-header-count {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.tl-bar-legend {
+  display: flex;
+  gap: 16px;
+  font-size: 10px;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.tl-leg-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tl-leg-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.tl-scroll {
+  height: 400px;
+  overflow-y: auto;
+  border: 1px solid var(--rule);
+  background: rgba(10, 15, 36, 0.3);
+  padding: 20px;
+  /* subtle custom scrollbar */
+}
+
+.tl-scroll::-webkit-scrollbar { width: 6px; }
+.tl-scroll::-webkit-scrollbar-track { background: var(--bg); }
+.tl-scroll::-webkit-scrollbar-thumb { background: var(--rule); }
+
+.tl-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.tl-year-group {
+  display: flex;
+  gap: 24px;
+}
+
+.tl-year-label {
+  font-family: var(--serif);
+  font-size: 24px;
+  color: var(--amber);
+  min-width: 60px;
+  flex-shrink: 0;
+}
+
+.tl-planet-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tl-planet {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  background: rgba(26, 33, 64, 0.4);
+  border: 1px solid var(--rule-soft);
+  font-size: 11px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.tl-planet:hover {
+  background: rgba(26, 33, 64, 0.8);
+  border-color: var(--rule);
+}
+
+.tl-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.tl-planet-name { color: var(--ink-2); }
+.tl-planet-method { color: var(--ink-4); font-size: 9px; text-transform: uppercase; }
