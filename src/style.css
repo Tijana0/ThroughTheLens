@@ -72,12 +72,103 @@ header.cover h1 {
   max-width: 1320px; margin: 0 auto; padding: 12px 40px 80px;
 }
 
+.terminal-section {
+  max-width: 1320px;
+  margin: 80px auto 0;
+  padding: 0 40px;
+}
+
+.terminal-window {
+  border: 1px solid var(--rule);
+  background: rgba(10, 15, 36, 0.4);
+  font-family: var(--mono);
+  color: var(--ink-2);
+}
+
+.terminal-header {
+  padding: 8px 12px;
+  background: var(--rule-soft);
+  border-bottom: 1px solid var(--rule);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--amber);
+}
+
+.terminal-header .tag {
+  color: var(--ink-4);
+  margin-right: 8px;
+}
+
+.terminal-content {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  min-height: 140px;
+}
+
+.terminal-col {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.terminal-col.core {
+  border-right: 1px solid var(--rule);
+  justify-content: center;
+}
+
+.term-log {
+  font-size: 10px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  color: var(--blue);
+}
+
+.term-log span#term-total {
+  color: var(--white);
+  font-weight: 600;
+}
+
+.term-label {
+  font-size: 9px;
+  color: var(--ink-4);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 12px;
+}
+
+.term-stream-content {
+  font-size: 10px;
+  line-height: 1.8;
+  height: 90px;
+  overflow: hidden;
+  position: relative;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+}
+
+.term-line {
+  display: block;
+  white-space: nowrap;
+}
+
+.term-line span {
+  color: var(--ink-4);
+  margin: 0 8px;
+}
+
+.term-line .val {
+  color: var(--amber);
+}
+
+.term-line .err {
+  color: var(--warn);
+}
+
 .deck {
   display: grid; 
   grid-template-columns: 1fr 1fr; 
   gap: 16px; 
   max-width: 1320px;
-  margin: 32px auto 80px;
+  margin: 80px auto 80px;
   padding: 0 40px;
 }
 
@@ -303,6 +394,11 @@ footer.foot a {
 .axis text {
   fill: var(--ink-4);
   font-family: var(--mono);
+}
+
+.gridline { 
+  stroke: var(--rule-soft); 
+  stroke-dasharray: 2 3; 
 }
 
 .timeline-axis {

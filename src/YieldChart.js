@@ -115,7 +115,7 @@ export default class YieldChart {
     }
 
     setYear(year) {
-        if (year < 1989 || year > 2017) {
+        if (year < 1989) {
             this.clip.attr('width', 0);
             this.highlight.attr('opacity', 0);
             return;
@@ -123,10 +123,8 @@ export default class YieldChart {
 
         const xPos = this.xScale(year);
         
-        this.clip
-            .transition()
-            .duration(300)
-            .attr('width', xPos);
+        // Instant update (no transition) to match high-frequency scroll events
+        this.clip.attr('width', xPos);
 
         this.highlight
             .attr('opacity', 0.8)

@@ -5,7 +5,9 @@ import {drawLens} from "./lens.js";
 import PlanetsChart from "./PlanetsChart.js";
 import YieldChart from "./YieldChart.js";
 import CompletenessChart from "./CompletenessChart.js";
-import HotJupitersChart from "./HotJupitersChart.js";
+import HabitabilityChart from "./HabitabilityChart.js";
+import CoverageChart from "./CoverageChart.js";
+import DiscoveryShareChart from "./DiscoveryShareChart.js";
 
 // parsing functions
 function parseRA(str) {
@@ -22,22 +24,47 @@ function parseDec(str) {
 }
 
 const data = await d3.dsv(';', '/data/OpenExoplanetCatalogue.csv', row => {
-    // Helper to parse numbers and keep empty/invalid as NaN
     const n = (v) => v === "" ? NaN : +v;
 
     return {
+        PlanetIdentifier: row.PlanetIdentifier,
+        LastUpdated: row.LastUpdated,
+        DiscoveryYear: n(row.DiscoveryYear),
+        DiscoveryMethod: row.DiscoveryMethod,
+        RightAscension: row.RightAscension,
+        Declination: row.Declination,
+        ListsPlanetIsOn: row.ListsPlanetIsOn,
+        TypeFlag: row.TypeFlag,
+        HostStarTempK: n(row.HostStarTempK),
+        HostStarMassSlrMass: n(row.HostStarMassSlrMass),
+        HostStarRadiusSlrRad: n(row.HostStarRadiusSlrRad),
+        HostStarMetallicity: n(row.HostStarMetallicity),
+        DistFromSunParsec: n(row.DistFromSunParsec),
+        HostStarAgeGyr: n(row.HostStarAgeGyr),
+        PeriodDays: n(row.PeriodDays),
+        RadiusJpt: n(row.RadiusJpt),
+        SemiMajorAxisAU: n(row.SemiMajorAxisAU),
+        PlanetaryMassJpt: n(row.PlanetaryMassJpt),
+        Eccentricity: n(row.Eccentricity),
+        SurfaceTempK: n(row.SurfaceTempK),
+        InclinationDeg: n(row.InclinationDeg),
+        PeriastronDeg: n(row.PeriastronDeg),
+        AscendingNodeDeg: n(row.AscendingNodeDeg),
+        LongitudeDeg: n(row.LongitudeDeg),
+        AgeGyr: n(row.AgeGyr),
+        
+        // Aliases for compatibility with other components
         planetIdentifier: row.PlanetIdentifier,
         radiusJpt: n(row.RadiusJpt),
         planetaryMassJpt: n(row.PlanetaryMassJpt),
         periodDays: n(row.PeriodDays),
-        semiMajorAxisAU: n(row.SemiMajorAxisAU),
-        surfaceTempK: n(row.SurfaceTempK),
-        discoveryMethod:      row.DiscoveryMethod,
-        discoveryYear:       n(row.DiscoveryYear),
+        discoveryMethod: row.DiscoveryMethod,
+        discoveryYear: n(row.DiscoveryYear),
         rightAscension: parseRA(row.RightAscension),
-        declination:    parseDec(row.Declination),
-        distFromSunParsec:   n(row.DistFromSunParsec),
+        declination: parseDec(row.Declination),
+        distFromSunParsec: n(row.DistFromSunParsec),
         hostStarMetallicity: n(row.HostStarMetallicity),
+        surfaceTempK: n(row.SurfaceTempK),
     };
 });
 
@@ -57,30 +84,37 @@ const completenessChart = new CompletenessChart(data, {
     parentElement: '#g-complete'
 });
 
-const hotJupitersChart = new HotJupitersChart(data, {
-    parentElement: '#p1-svg'
+const habitabilityChart = new HabitabilityChart(data, {
+    parentElement: '#p2-svg'
+});
+
+const coverageChart = new CoverageChart(data, {
+    parentElement: '#p3-svg'
+});
+
+const discoveryShareChart = new DiscoveryShareChart(data, {
+    parentElement: '#p4-svg'
 });
 
 // Timeline Point (Scrubber) Setup
 const timeSvg = d3.select('#timeline-svg');
 const scrubber = timeSvg.append('circle')
     .attr('id', 'scrubber')
-    .attr('cx', 22) // Align with .timeline-axis left: 22px
+    .attr('cx', 22)
     .attr('r', 4)
     .attr('fill', 'var(--amber)')
     .attr('opacity', 0);
 
 const yearScale = d3.scaleLinear()
-    .domain([0, 1]) // scroll progress
+    .domain([0, 1])
     .range([1989, 2017])
     .clamp(true);
 
 const yPosScale = d3.scaleLinear()
     .domain([0, 1])
-    .range([110, 600]) // Match .timeline-axis top/bottom roughly
+    .range([110, window.innerHeight - 60])
     .clamp(true);
 
-// Step 2: The Note Card Update Function
 function updateNarrativeCard(year) {
     const allUntilNow = data.filter(d => d.discoveryYear <= year && d.discoveryYear > 0);
     const thisYearBatch = data.filter(d => d.discoveryYear === year);
@@ -88,7 +122,6 @@ function updateNarrativeCard(year) {
     const runningTotal = allUntilNow.length;
     const thisYearTotal = thisYearBatch.length;
     
-    // Method mix (top method)
     const methods = d3.rollups(allUntilNow, v => v.length, d => d.discoveryMethod);
     const topMethodEntry = d3.greatest(methods, d => d[1]);
     const topMethod = topMethodEntry ? topMethodEntry[0] : '—';
@@ -98,49 +131,55 @@ function updateNarrativeCard(year) {
     d3.select('#n-run').text(runningTotal.toLocaleString());
     d3.select('#n-mix').text(topMethod);
     
-    // Narrative text logic
-    let text = "The search for other worlds continues.";
-    if (year <= 1995) text = "51 Pegasi b is discovered, the first exoplanet found orbiting a Sun-like star.";
-    else if (year <= 2009) text = "The number of known planets grows as ground-based surveys mature.";
-    else if (year <= 2013) text = "The Kepler Mission begins to reveal a universe teeming with planets of all sizes.";
-    else if (year >= 2016) text = "Seven Earth-sized planets are found orbiting the ultra-cool dwarf star TRAPPIST-1.";
-    
-    d3.select('#n-text').text(text);
+    d3.select('#n-text').text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
 }
 
-// Global update function
 function updateAll(year, progress) {
     planets.updateViz(year);
     yieldChart.setYear(year);
     completenessChart.update(year);
     updateNarrativeCard(year);
     
-    // Move the timeline point
     scrubber
         .attr('opacity', 1)
         .attr('cy', yPosScale(progress));
 }
 
-// Scrollama Setup
 const scroller = scrollama();
 
 scroller
     .setup({
         step: '.step',
         progress: true,
-        offset: 0.5
+        offset: 0.6
     })
     .onStepProgress(response => {
-        // Calculate global progress across all steps
-        // response.progress is 0 to 1 for the current step
-        // We can simplify this for the skeleton:
         const stepCount = d3.selectAll('.step').size();
-        const globalProgress = (response.index + response.progress) / stepCount;
+        const globalProgress = Math.min(1.0, (response.index + response.progress) / (stepCount - 0.5));
         const year = Math.floor(yearScale(globalProgress));
         updateAll(year, globalProgress);
     });
 
-// Initial state
 updateAll(1989, 0);
+
+const totalCount = data.length;
+d3.select('#term-total').text(totalCount.toLocaleString());
+
+const streamContainer = d3.select('#term-stream');
+function addLine() {
+    const d = data[Math.floor(Math.random() * data.length)];
+    const massVal = isNaN(d.planetaryMassJpt) ? '<span class="err">[ERR]</span>' : `<span class="val">${d.planetaryMassJpt.toFixed(2)} Mj</span>`;
+    const tempVal = isNaN(d.surfaceTempK) ? '<span class="err">[NULL]</span>' : `<span class="val">${d.surfaceTempK}K</span>`;
+
+    streamContainer.append('div')
+        .attr('class', 'term-line')
+        .html(`ID: ${d.planetIdentifier.slice(0,16).padEnd(16)} <span>|</span> MASS: ${massVal} <span>|</span> TEMP: ${tempVal}`);
+
+    const lines = streamContainer.selectAll('.term-line');
+    if (lines.size() > 8) {
+        lines.filter((d, i) => i === 0).remove();
+    }
+}
+setInterval(addLine, 1000);
 
 window.updateTimeline = updateAll;

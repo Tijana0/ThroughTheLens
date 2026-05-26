@@ -25,6 +25,11 @@ export default class PlanetsChart {
         this.yScale = d3.scaleLinear()
             .range([cy + lensRadius, cy - lensRadius]);
 
+        // Pre-calculate static domains based on full dataset
+        const fullFiltered = this.data.filter(d => !isNaN(d.rightAscension) && !isNaN(d.declination));
+        this.xScale.domain(d3.extent(fullFiltered, d => d.rightAscension));
+        this.yScale.domain(d3.extent(fullFiltered, d => d.declination));
+
         this.sizeScale = d3.scaleSqrt()
             .range([3,10]);
 
@@ -52,8 +57,6 @@ export default class PlanetsChart {
             (!year || d.discoveryYear <= year)
         );
 
-        this.xScale.domain(d3.extent(this.filteredData, d => d.rightAscension));
-        this.yScale.domain(d3.extent(this.filteredData, d => d.declination));
         this.sizeScale.domain(d3.extent(this.filteredData, d => d.radiusJpt));
         this.opacityScale.domain(d3.extent(this.filteredData, d => d.distFromSunParsec));
 
