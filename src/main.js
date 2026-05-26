@@ -4,6 +4,7 @@ import scrollama from 'scrollama';
 import {drawLens} from "./lens.js";
 import PlanetsChart from "./PlanetsChart.js";
 import YieldChart from "./YieldChart.js";
+import CompletenessChart from "./CompletenessChart.js";
 
 // parsing functions
 function parseRA(str) {
@@ -22,6 +23,10 @@ function parseDec(str) {
 const data = await d3.dsv(';', '/data/OpenExoplanetCatalogue.csv', row => ({
     planetIdentifier: row.PlanetIdentifier,
     radiusJpt: +row.RadiusJpt,
+    planetaryMassJpt: +row.PlanetaryMassJpt,
+    periodDays: +row.PeriodDays,
+    semiMajorAxisAU: +row.SemiMajorAxisAU,
+    surfaceTempK: +row.SurfaceTempK,
     discoveryMethod:      row.DiscoveryMethod,
     discoveryYear:       +row.DiscoveryYear,
     rightAscension: parseRA(row.RightAscension),
@@ -39,6 +44,10 @@ const planets = new PlanetsChart(data, {
 
 const yieldChart = new YieldChart(data, {
     parentElement: '#g-yield'
+});
+
+const completenessChart = new CompletenessChart(data, {
+    parentElement: '#g-complete'
 });
 
 // Timeline Point (Scrubber) Setup
@@ -92,6 +101,7 @@ function updateNarrativeCard(year) {
 function updateAll(year, progress) {
     planets.updateViz(year);
     yieldChart.setYear(year);
+    completenessChart.update(year);
     updateNarrativeCard(year);
     
     // Move the timeline point
