@@ -24,50 +24,60 @@ function parseDec(str) {
     return sign * (Math.abs(parts[0]) + parts[1] / 60 + parts[2] / 3600);
 }
 
-const data = await d3.dsv(';', '/data/OpenExoplanetCatalogue.csv', row => {
-    const n = (v) => v === "" ? NaN : +v;
-
-    return {
-        PlanetIdentifier: row.PlanetIdentifier,
-        LastUpdated: row.LastUpdated,
-        DiscoveryYear: n(row.DiscoveryYear),
-        DiscoveryMethod: row.DiscoveryMethod,
-        RightAscension: row.RightAscension,
-        Declination: row.Declination,
-        ListsPlanetIsOn: row.ListsPlanetIsOn,
-        TypeFlag: row.TypeFlag,
-        HostStarTempK: n(row.HostStarTempK),
-        HostStarMassSlrMass: n(row.HostStarMassSlrMass),
-        HostStarRadiusSlrRad: n(row.HostStarRadiusSlrRad),
-        HostStarMetallicity: n(row.HostStarMetallicity),
-        DistFromSunParsec: n(row.DistFromSunParsec),
-        HostStarAgeGyr: n(row.HostStarAgeGyr),
-        PeriodDays: n(row.PeriodDays),
-        RadiusJpt: n(row.RadiusJpt),
-        SemiMajorAxisAU: n(row.SemiMajorAxisAU),
-        PlanetaryMassJpt: n(row.PlanetaryMassJpt),
-        Eccentricity: n(row.Eccentricity),
-        SurfaceTempK: n(row.SurfaceTempK),
-        InclinationDeg: n(row.InclinationDeg),
-        PeriastronDeg: n(row.PeriastronDeg),
-        AscendingNodeDeg: n(row.AscendingNodeDeg),
-        LongitudeDeg: n(row.LongitudeDeg),
-        AgeGyr: n(row.AgeGyr),
-        
-        // Aliases for compatibility with other components
-        planetIdentifier: row.PlanetIdentifier,
-        radiusJpt: n(row.RadiusJpt),
-        planetaryMassJpt: n(row.PlanetaryMassJpt),
-        periodDays: n(row.PeriodDays),
-        discoveryMethod: row.DiscoveryMethod,
-        discoveryYear: n(row.DiscoveryYear),
-        rightAscension: parseRA(row.RightAscension),
-        declination: parseDec(row.Declination),
-        distFromSunParsec: n(row.DistFromSunParsec),
-        hostStarMetallicity: n(row.HostStarMetallicity),
-        surfaceTempK: n(row.SurfaceTempK),
-    };
-});
+const data = await d3.dsv(';', '/data/OpenExoplanetCatalogue.csv', row => ({
+    planetIdentifier: row.PlanetIdentifier,      // planet name, e.g. "HD 143761 b"
+    typeFlag: +row.TypeFlag,              // 0=planet, 1=binary orbit, 2=circumbinary, 3=pulsar
+    planetaryMassJpt: +row.PlanetaryMassJpt,      // planet mass in Jupiter masses
+    radiusJpt: +row.RadiusJpt,             // planet radius in Jupiter radii
+    periodDays:          +row.PeriodDays,            // orbital period in days
+    semiMajorAxisAU:     +row.SemiMajorAxisAU,       // orbit size in AU (1 = Earth-Sun distance)
+    eccentricity:        +row.Eccentricity,          // orbit shape: 0 = circle, 1 = parabolic
+    periastronDeg:       +row.PeriastronDeg,         // angle of closest point in orbit (degrees)
+    longitudeDeg:        +row.LongitudeDeg,          // orbital longitude reference angle (degrees)
+    ascendingNodeDeg:    +row.AscendingNodeDeg,      // where orbit crosses the reference plane (degrees)
+    inclinationDeg:      +row.InclinationDeg,        // orbit tilt: 90° = edge-on to us
+    surfaceTempK:        +row.SurfaceTempK,          // estimated surface temperature in Kelvin
+    ageGyr:              +row.AgeGyr,                // planet age in billions of years
+    discoveryMethod:      row.DiscoveryMethod,       // how it was found, e.g. "RV", "Transit", "Imaging"
+    discoveryYear:       +row.DiscoveryYear,         // year of discovery
+    lastUpdated:          row.LastUpdated,           // last catalogue update (YY/MM/DD)
+    rightAscension: parseRA(row.RightAscension),     // sky position: like longitude (HH MM SS)
+    declination:    parseDec(row.Declination),       // sky position: like latitude (±DD MM SS)
+    distFromSunParsec:   +row.DistFromSunParsec,     // distance from Sun in parsecs (1pc ≈ 3.26 ly)
+    hostStarMassSlrMass: +row.HostStarMassSlrMass,   // host star mass in solar masses (1 = our Sun)
+    hostStarRadiusSlrRad:+row.HostStarRadiusSlrRad,  // host star radius in solar radii
+    hostStarMetallicity: +row.HostStarMetallicity,   // star metal content vs Sun (log scale, 0 = solar)
+    hostStarTempK:       +row.HostStarTempK,         // host star surface temperature in Kelvin
+    hostStarAgeGyr:      +row.HostStarAgeGyr,        // host star age in billions of years
+    listsPlanetIsOn:      row.ListsPlanetIsOn,       // catalogue category, e.g. "Confirmed planets"
+    
+    // Legacy support for capitalized coverage chart keys
+    PlanetIdentifier: row.PlanetIdentifier,
+    LastUpdated: row.LastUpdated,
+    DiscoveryYear: +row.DiscoveryYear,
+    DiscoveryMethod: row.DiscoveryMethod,
+    RightAscension: row.RightAscension,
+    Declination: row.Declination,
+    ListsPlanetIsOn: row.ListsPlanetIsOn,
+    TypeFlag: +row.TypeFlag,
+    HostStarTempK: +row.HostStarTempK,
+    HostStarMassSlrMass: +row.HostStarMassSlrMass,
+    HostStarRadiusSlrRad: +row.HostStarRadiusSlrRad,
+    HostStarMetallicity: +row.HostStarMetallicity,
+    DistFromSunParsec: +row.DistFromSunParsec,
+    HostStarAgeGyr: +row.HostStarAgeGyr,
+    PeriodDays: +row.PeriodDays,
+    RadiusJpt: +row.RadiusJpt,
+    SemiMajorAxisAU: +row.SemiMajorAxisAU,
+    PlanetaryMassJpt: +row.PlanetaryMassJpt,
+    Eccentricity: +row.Eccentricity,
+    SurfaceTempK: +row.SurfaceTempK,
+    InclinationDeg: +row.InclinationDeg,
+    PeriastronDeg: +row.PeriastronDeg,
+    AscendingNodeDeg: +row.AscendingNodeDeg,
+    LongitudeDeg: +row.LongitudeDeg,
+    AgeGyr: +row.AgeGyr,
+}));
 
 const svg = d3.select('#lens-svg');
 const lensArea = drawLens(svg);

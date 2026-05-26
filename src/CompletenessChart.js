@@ -82,7 +82,8 @@ export default class CompletenessChart {
         const total = batch.length;
 
         const completenessData = this.attributes.map(attr => {
-            const filled = batch.filter(d => d[attr.key] !== undefined && d[attr.key] !== null && !isNaN(d[attr.key])).length;
+            // Treat 0, undefined, null, or NaN as "missing" for completeness
+            const filled = batch.filter(d => d[attr.key] !== undefined && d[attr.key] !== null && !isNaN(d[attr.key]) && d[attr.key] !== 0).length;
             return {
                 label: attr.label,
                 percent: total > 0 ? filled / total : 0

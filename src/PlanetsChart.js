@@ -58,14 +58,14 @@ export default class PlanetsChart {
         );
 
         this.filteredData.forEach(d => {
-            // Use the original capitalized keys from the merged dataset
-            d.isIncomplete = isNaN(d.PlanetaryMassJpt) ||
-                isNaN(d.RadiusJpt) ||
-                isNaN(d.PeriodDays) ||
-                isNaN(d.SurfaceTempK) ||
-                isNaN(d.DistFromSunParsec) ||
-                isNaN(d.HostStarTempK) ||
-                !d.DiscoveryMethod;
+            // Treat 0 or NaN as incomplete for physical properties
+            d.isIncomplete = !d.planetaryMassJpt ||
+                !d.radiusJpt ||
+                !d.periodDays ||
+                !d.surfaceTempK ||
+                !d.distFromSunParsec ||
+                !d.hostStarTempK ||
+                !d.discoveryMethod;
         });
 
         this.sizeScale.domain(d3.extent(this.filteredData, d => d.radiusJpt));
