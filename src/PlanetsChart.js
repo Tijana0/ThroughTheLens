@@ -75,16 +75,15 @@ export default class PlanetsChart {
 
     renderViz() {
         const { lensArea } = this.config;
-
-        const circles = lensArea.selectAll('.planet')
-            .data(this.filteredData, d => d.planetIdentifier)
-            .join('circle')
-            .attr('fill', d => this.colorScale(d.discoveryMethod?.toLowerCase()))
-            .attr('opacity', d => isNaN(d.distFromSunParsec) ? 0.5 : this.opacityScale(d.distFromSunParsec))
-            .attr('class', d => d.isIncomplete ? 'planet glitch' : 'planet')
-            .attr('cx', d => this.xScale(d.rightAscension))
-            .attr('cy', d => this.yScale(d.declination))
-            .attr('r', d => isNaN(d.radiusJpt) ? 2 : this.sizeScale(d.radiusJpt));
+const circles = lensArea.selectAll('.planet')
+    .data(this.filteredData, d => d.planetIdentifier)
+    .join('circle')
+    .attr('class', d => d.isIncomplete ? 'planet glitch' : 'planet')
+    .attr('fill', d => this.colorScale(d.discoveryMethod?.toLowerCase()))
+    .attr('opacity', d => isNaN(d.distFromSunParsec) ? 0.5 : this.opacityScale(d.distFromSunParsec))
+    .attr('cx', d => this.xScale(d.rightAscension))
+    .attr('cy', d => this.yScale(d.declination))
+    .attr('r', d => isNaN(d.radiusJpt) ? 2 : this.sizeScale(d.radiusJpt));
 
 
         circles.on('mouseover', (event, d) => {
