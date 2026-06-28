@@ -699,3 +699,31 @@ circle.planet { transition: r 0.4s ease, opacity 0.4s ease, fill 0.4s ease; }
   animation: glitch 1s infinite steps(1);
   mix-blend-mode: screen;
 }
+
+/* Solar System zoom button + reference layer */
+.ll-btn {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  background: rgba(26, 33, 64, 0.5);
+  border: 1px solid var(--rule);
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.ll-btn:hover { border-color: var(--amber); color: var(--amber); }
+
+.ll-btn:disabled {
+  opacity: 0.4;
+  color: var(--ink-3);
+  border-color: var(--rule);
+  cursor: not-allowed;
+}
+.ll-btn:disabled:hover {
+  color: var(--ink-3);
+  border-color: var(--rule);
+}
+
+.solar-system .ss-planet { cursor: pointer; }

@@ -47,7 +47,15 @@
             <input type="checkbox" id="ll-mode-toggle">
             <span class="ll-track"><span class="ll-thumb"></span></span>
           </label>
-          <span id="ll-mode-text">All planets up to this year</span>
+        </div>
+
+        <div class="ll-row ll-toggle">
+          <label class="ll-switch">
+            <input type="checkbox" id="ss-toggle" checked>
+            <span class="ll-track"><span class="ll-thumb"></span></span>
+          </label>
+          <span>Show Solar System</span>
+          <button id="ss-zoom-btn" class="ll-btn" type="button">Zoom to Earth</button>
         </div>
 
         <span class="ll-showing">Discovery methods</span>
@@ -64,6 +72,8 @@
           <span class="ll-sw ll-sw-glitch"></span>
           Flickering dots are planets with <b>missing data</b>.
         </div>
+
+        <span class="ll-showing">The further the planet is, the lower <b>Opacity</b> it has.</span>
       </div>
 
       <div class="bottom-panel chart-panel">
