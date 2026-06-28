@@ -139,15 +139,21 @@ function updateNarrativeCard(year) {
     d3.select('#n-text').text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
 }
 
+let lastYear = null;
 function updateAll(year, progress) {
+    // cheap: the scrubber should track scroll continuously
+    scrubber
+        .attr('opacity', 1)
+        .attr('cy', yPosScale(progress));
+
+    // expensive: only redo when the integer year actually changes
+    if (year === lastYear) return;
+    lastYear = year;
+
     planets.updateViz(year);
     yieldChart.setYear(year);
     completenessChart.update(year);
     updateNarrativeCard(year);
-    
-    scrubber
-        .attr('opacity', 1)
-        .attr('cy', yPosScale(progress));
 }
 
 const scroller = scrollama();
@@ -166,6 +172,16 @@ scroller
     });
 
 updateAll(1989, 0);
+
+const modeToggle = document.getElementById('ll-mode-toggle');
+const modeText   = document.getElementById('ll-mode-text');
+modeToggle.addEventListener('change', () => {
+    const thisYear = modeToggle.checked;
+    modeText.textContent = thisYear
+        ? 'Only planets discovered this year'
+        : 'All planets up to this year';
+    planets.setMode(thisYear ? 'thisYear' : 'cumulative');
+});
 
 const totalCount = data.length;
 d3.select('#term-total').text(totalCount.toLocaleString());

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Through the Lens — A Scrollable History of Exoplanet Discovery</title>
+  <title>Through the Lens - A Scrollable History of Exoplanet Discovery</title>
   <meta name="viewport" content="width=1280" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,7 +36,36 @@
     <!-- lens -->
     <div class="lens-col">
       <svg class="lens-svg" id="lens-svg" viewBox="0 0 460 460"></svg>
-      
+
+      <div class="lens-legend" id="lens-legend">
+        <div class="ll-row ll-top">
+          <span class="ll-showing">Planets showing until <b id="ll-year">1989</b></span>
+          <span class="ll-count"><b id="ll-count">0</b> in view</span>
+        </div>
+
+        <div class="ll-row ll-toggle">
+          <label class="ll-switch">
+            <input type="checkbox" id="ll-mode-toggle">
+            <span class="ll-track"><span class="ll-thumb"></span></span>
+          </label>
+          <span id="ll-mode-text">All planets up to this year</span>
+        </div>
+
+        <span class="ll-showing">Discovery methods</span>
+        <div class="ll-row ll-colors">
+          <span><span class="ll-sw" style="background:#f0a830"></span>Transit</span>
+          <span><span class="ll-sw" style="background:#4a9ef0"></span>Radial velocity</span>
+          <span><span class="ll-sw" style="background:#c070f8"></span>Imaging</span>
+          <span><span class="ll-sw" style="background:#5fb47c"></span>Microlensing</span>
+          <span><span class="ll-sw" style="background:#ffffff"></span>Timing</span>
+        </div>
+
+        <div class="ll-row ll-glitch">
+          <span class="ll-sw ll-sw-glitch"></span>
+          Flickering dots are planets with <b>missing data</b>.
+        </div>
+      </div>
+
       <div class="bottom-panel chart-panel">
         <div class="chart-container" id="bottom-chart"></div>
       </div>

@@ -12,6 +12,9 @@ export default class PlanetsChart {
             cy:            config?.cy ?? 230,
         };
 
+        this.mode = 'cumulative';   // or 'thisYear'
+        this.currentYear = null;
+
         this.initViz();
     }
 
@@ -31,14 +34,16 @@ export default class PlanetsChart {
         this.yScale.domain(d3.extent(fullFiltered, d => d.declination));
 
         this.sizeScale = d3.scaleSqrt()
-            .range([3,10]);
+            .range([3,10])
+            .domain(d3.extent(fullFiltered, d => d.radiusJpt));
 
         this.colorScale = d3.scaleOrdinal()
             .domain(['transit', 'RV', 'imaging', 'microlensing', 'timing'])
             .range(['#f0a830', '#4a9ef0', '#c070f8', '#5fb47c', '#ffffff']);
 
         this.opacityScale = d3.scaleLinear()
-            .range([0.7, 0.05]);
+            .range([0.7, 0.05])
+            .domain(d3.extent(fullFiltered, d => d.distFromSunParsec));
 
         const zoom = d3.zoom()
             .scaleExtent([1, 8])  // min zoom 1x, max zoom 8x
@@ -51,11 +56,15 @@ export default class PlanetsChart {
 
     updateViz(year) {
 
-        this.filteredData = this.data.filter(d =>
-            !isNaN(d.rightAscension) &&
-            !isNaN(d.declination) &&
-            (!year || d.discoveryYear <= year)
-        );
+        this.currentYear = year;
+
+        this.filteredData = this.data.filter(d => {
+            if (isNaN(d.rightAscension) || isNaN(d.declination)) return false;
+            if (!year) return true;
+            return this.mode === 'thisYear'
+                ? d.discoveryYear === year      // only planets discovered this year
+                : d.discoveryYear <= year;      // all planets up to this year
+        });
 
         this.filteredData.forEach(d => {
             // Use the original capitalized keys from the merged dataset
@@ -68,10 +77,15 @@ export default class PlanetsChart {
                 !d.DiscoveryMethod;
         });
 
-        this.sizeScale.domain(d3.extent(this.filteredData, d => d.radiusJpt));
-        this.opacityScale.domain(d3.extent(this.filteredData, d => d.distFromSunParsec));
-
         this.renderViz();
+
+        d3.select('#ll-year').text(year);
+        d3.select('#ll-count').text(this.filteredData.length.toLocaleString());
+    }
+
+    setMode(mode) {
+        this.mode = mode;
+        if (this.currentYear != null) this.updateViz(this.currentYear);
     }
 
     renderViz() {
