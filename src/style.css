@@ -469,7 +469,7 @@ footer.foot a {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease, transform 0.2s ease;
-  transform: translate(95px, -29px);
+  transform: translate(65px, -29px);
 }
 
 .tl-tick:hover .tl-tick-label {
@@ -479,7 +479,7 @@ footer.foot a {
 
 .tl-tick:hover .tl-event-popup {
   opacity: 1;
-  transform: translate(115px, -29px);
+  transform: translate(80px, -29px);
 }
 
 .tl-tick.active line {
@@ -494,7 +494,7 @@ footer.foot a {
 
 .tl-tick.active .tl-event-popup {
   opacity: 1;
-  transform: translate(115px, -29px);
+  transform: translate(80px, -29px);
 }
 
 .steps { position: relative; margin-top: -100vh; pointer-events: none; }
