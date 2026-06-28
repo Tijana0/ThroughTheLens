@@ -315,7 +315,7 @@ footer.foot a {
 
 .right-col { 
   display: grid; 
-  grid-template-rows: 1fr 1fr; 
+  grid-template-rows: 1.4fr 0.6fr; 
   gap: 18px; 
   height: 100%;
   padding-top: 4px;
