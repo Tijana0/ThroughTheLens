@@ -74,10 +74,10 @@ export default class YieldChart {
             .join('path')
             .attr('class', 'bg-layer')
             .attr('d', this.area)
-            .attr('fill', '#1e2548')
+            .attr('fill', '#38436e')
             .attr('stroke', '#060a1f')
             .attr('stroke-width', 0.5)
-            .attr('opacity', (d, i) => 0.2 + i * 0.08);
+            .attr('opacity', (d, i) => 0.3 + i * 0.08);
 
         // Clip path for scroll-reveal effect
         this.defs = this.svg.append('defs');
