@@ -60,7 +60,7 @@ export default class PlanetsChart {
 
         this.colorScale = d3.scaleOrdinal()
             .domain(['transit', 'rv', 'imaging', 'microlensing', 'timing', 'other'])
-            .range(['#f0a830', '#4a9ef0', '#c070f8', '#5fb47c', '#ffffff', '#707a9e']);
+            .range(['#f0a830', '#4a9ef0', '#e84393', '#5fb47c', '#ffffff', '#707a9e']);
 
         this.opacityScale = d3.scaleLinear()
             .range([0.7, 0.05])

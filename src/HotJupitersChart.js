@@ -41,7 +41,7 @@ export default class HotJupitersChart {
 
         this.colorScale = d3.scaleOrdinal()
             .domain(['transit', 'rv', 'imaging', 'microlensing', 'timing', 'other'])
-            .range(['#f0a830', '#4a9ef0', '#c070f8', '#5fb47c', '#ffffff', '#707a9e']);
+            .range(['#f0a830', '#4a9ef0', '#e84393', '#5fb47c', '#ffffff', '#707a9e']);
 
         // Gridlines
         [0.1, 1, 10, 100, 1000, 10000].forEach(v => {

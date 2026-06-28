@@ -56,7 +56,7 @@ export default class YieldChart {
 
         this.colorScale = d3.scaleOrdinal()
             .domain(methods)
-            .range(['#f0a830', '#4a9ef0', '#c070f8', '#5fb47c', '#ffffff', '#707a9e']);
+            .range(['#f0a830', '#4a9ef0', '#e84393', '#5fb47c', '#ffffff', '#707a9e']);
 
         this.stack = d3.stack().keys(methods);
         this.stackedData = this.stack(cumulativeData);
