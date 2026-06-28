@@ -37,7 +37,7 @@ export default class HabitabilityChart {
             .attr('viewBox', `0 0 ${this.config.width} ${this.config.height}`)
             .attr('preserveAspectRatio', 'xMidYMid meet');
 
-        this.margin = { top: 20, right: 20, bottom: 40, left: 65 };
+        this.margin = { top: 20, right: 20, bottom: 40, left: 75 };
         this.innerWidth = this.config.width - this.margin.left - this.margin.right;
         this.innerHeight = this.config.height - this.margin.top - this.margin.bottom;
 
@@ -132,7 +132,7 @@ export default class HabitabilityChart {
         this.g.append('text')
             .attr('transform', 'rotate(-90)')
             .attr('x', -this.innerHeight / 2)
-            .attr('y', -52)
+            .attr('y', -60)
             .attr('text-anchor', 'middle')
             .attr('fill', '#6a7390')
             .attr('font-size', '10px')
