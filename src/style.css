@@ -776,7 +776,7 @@ circle.planet { transition: r 0.4s ease, opacity 0.4s ease, fill 0.4s ease; }
 .ll-sw-glitch {
   width: 8px; height: 8px; border-radius: 50%;
   background: var(--amber);
-  animation: glitch 1s infinite steps(1);
+  animation: flicker 1.5s steps(8, end) infinite;
   mix-blend-mode: screen;
 }
 
