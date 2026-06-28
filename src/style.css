@@ -807,3 +807,58 @@ circle.planet { transition: r 0.4s ease, opacity 0.4s ease, fill 0.4s ease; }
 }
 
 .solar-system .ss-planet { cursor: pointer; }
+
+/* ── Height-based Responsiveness for Sticky Section ── */
+
+@media (max-height: 780px) {
+  .sticky {
+    min-height: 600px;
+    padding: 12px 0;
+    gap: 16px;
+  }
+  .lens-svg {
+    width: 440px;
+    height: 440px;
+  }
+  .lens-col {
+    gap: 12px;
+  }
+  .right-col {
+    gap: 12px;
+  }
+  .right-card {
+    padding: 12px 14px;
+  }
+  .narrative .scene-year {
+    font-size: 44px;
+  }
+  .narrative .scene-text {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+}
+
+@media (max-height: 680px) {
+  .sticky {
+    min-height: 500px;
+    padding: 8px 0;
+    gap: 12px;
+  }
+  .lens-svg {
+    width: 360px;
+    height: 360px;
+  }
+  .lens-col {
+    gap: 8px;
+  }
+  .right-card {
+    padding: 8px 12px;
+  }
+  .narrative .scene-year {
+    font-size: 36px;
+  }
+  .narrative .scene-text {
+    font-size: 14px;
+    line-height: 1.35;
+  }
+}
