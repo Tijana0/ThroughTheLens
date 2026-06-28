@@ -214,6 +214,35 @@ const scrubber = timeSvg.append('circle')
     .attr('fill', 'var(--amber)')
     .attr('opacity', 0);
 
+const yearNarratives = {
+    1992: "The era of exoplanet discovery begins. Radio astronomers Aleksander Wolszczan and Dale Frail detect two rocky planets orbiting the pulsar PSR B1257+12, proving planets can survive supernova explosions.",
+    1993: "A quiet year of verification. Astronomers confirm the pulsar planets discovered in 1992 and refine their orbital measurements, while searching for the first planets orbiting sun-like stars.",
+    1994: "A third planet is detected in the PSR B1257+12 pulsar system. The discovery demonstrates that multi-planet systems exist outside of our solar system.",
+    1995: "A monumental milestone. Michel Mayor and Didier Queloz discover 51 Pegasi b, the first exoplanet orbiting a Sun-like star. This \"Hot Jupiter\" challenges existing theories of planet formation.",
+    1996: "The \"Hot Jupiter\" rush begins. Five new massive planets are discovered using the Radial Velocity method, including 47 Ursae Majoris b and 70 Virginis b, revealing highly eccentric orbits.",
+    1997: "Astronomers discover 16 Cygni Bb, a giant planet in a triple-star system. This discovery highlights the diversity of stellar environments where planets can form.",
+    1998: "The first super-Earths and giant planets continue to emerge. Gliese 876 b is discovered, marking one of the first planets found orbiting a red dwarf star close to Earth.",
+    1999: "A year of breakthroughs. The first multi-planet system around a main-sequence star (Upsilon Andromedae) is discovered, and astronomers detect the first transiting exoplanet, HD 209458 b.",
+    2000: "The transit method is officially established. By observing HD 209458 b passing in front of its star, astronomers calculate a planet's radius and density for the first time.",
+    2001: "Using the Hubble Space Telescope, astronomers make the first detection of an exoplanet atmosphere, finding sodium in the atmosphere of the transiting gas giant HD 209458 b.",
+    2002: "The first exoplanet discovered using the transit method via a wide-field ground survey (OGLE-TR-56b) is announced, proving the viability of ground-based transit surveys.",
+    2003: "Astronomers discover PSR B1620-26 b, nicknamed \"Methuselah.\" At 12.7 billion years old, it is the oldest known exoplanet, forming just 1 billion years after the Big Bang.",
+    2004: "A major leap in detection. The first super-Earth orbiting a main-sequence star (55 Cancri e) is found, and the first planet is discovered orbiting a brown dwarf (2M1207b).",
+    2005: "The first direct image of an exoplanet (2M1207b) is confirmed. Meanwhile, the Spitzer Space Telescope directly detects infrared light from exoplanets HD 209458 b and TrES-1.",
+    2006: "The CoRoT space telescope is launched by CNES/ESA, becoming the first space mission dedicated to searching for exoplanets using the transit method.",
+    2007: "Water vapor is detected in the atmosphere of exoplanet HD 189733 b, marking a major step forward in the search for habitable worlds and atmospheric characterization.",
+    2008: "A spectacular year for direct imaging. Astronomers capture images of three planets orbiting HR 8799, and the Hubble Space Telescope images a planet candidate inside the dust belt of Fomalhaut.",
+    2009: "NASA's Kepler Space Telescope is launched, designed to monitor over 150,000 stars simultaneously. The era of high-precision space-based transit photometry begins.",
+    2010: "Kepler announces its first five exoplanet discoveries. Meanwhile, the first multi-planet system detected by radial velocity (HD 10180) reveals up to seven planets.",
+    2011: "Kepler-11 is discovered, showing an incredibly packed system of six coplanar planets. Kepler also confirms Kepler-16b, the first planet orbiting two stars (a \"Tatooine\" world).",
+    2012: "Kepler discoveries surge, confirming hundreds of candidates. Astronomers also discover Alpha Centauri Bb, a planet candidate orbiting our closest stellar neighbor (later disputed).",
+    2013: "Kepler completes its primary mission. Despite mechanical failures, it has revolutionized science by proving that small, rocky planets are more common than gas giants.",
+    2014: "Kepler transitions to the K2 mission. A massive release of 715 newly verified planets is announced, validating a new statistical technique called \"multiplicity.\"",
+    2015: "Kepler-452b is discovered. Dubbed \"Earth's Older, Bigger Cousin,\" it is the first near-Earth-sized planet orbiting in the habitable zone of a Sun-like star.",
+    2016: "A historic year. Astronomers discover Proxima Centauri b, a potentially habitable Earth-mass planet orbiting our closest stellar neighbor, just 4.2 light-years away.",
+    2017: "The TRAPPIST-1 system is confirmed, revealing seven Earth-sized temperate rocky planets orbiting an ultra-cool dwarf star, with three planets situated in the habitable zone."
+};
+
 function updateNarrativeCard(year) {
     const allUntilNow = data.filter(d => d.discoveryYear <= year && d.discoveryYear > 0);
     const thisYearBatch = data.filter(d => d.discoveryYear === year);
@@ -230,7 +259,8 @@ function updateNarrativeCard(year) {
     d3.select('#n-run').text(runningTotal.toLocaleString());
     d3.select('#n-mix').text(topMethod);
     
-    d3.select('#n-text').text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
+    const narrativeText = yearNarratives[year] || "No narrative available for this year.";
+    d3.select('#n-text').text(narrativeText);
 }
 
 let lastYear = null;
