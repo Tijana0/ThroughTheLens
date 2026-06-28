@@ -111,24 +111,75 @@ const discoveryShareChart = new DiscoveryShareChart(data, {
     parentElement: '#p4-svg'
 });
 
-// Timeline Point (Scrubber) Setup
+// Timeline Setup
 const timeSvg = d3.select('#timeline-svg');
-const scrubber = timeSvg.append('circle')
-    .attr('id', 'scrubber')
-    .attr('cx', 22)
-    .attr('r', 4)
-    .attr('fill', 'var(--amber)')
-    .attr('opacity', 0);
+const yearsRange = d3.range(1989, 2018);
 
 const yearScale = d3.scaleLinear()
     .domain([0, 1])
     .range([1989, 2017])
     .clamp(true);
 
-const yPosScale = d3.scaleLinear()
-    .domain([0, 1])
+const yearYScale = d3.scaleLinear()
+    .domain([1989, 2017])
     .range([110, window.innerHeight - 60])
     .clamp(true);
+
+// Draw the vertical axis line
+timeSvg.append('line')
+    .attr('class', 'timeline-axis-line')
+    .attr('x1', 22)
+    .attr('y1', yearYScale(1989))
+    .attr('x2', 22)
+    .attr('y2', yearYScale(2017))
+    .attr('stroke', 'var(--rule)')
+    .attr('stroke-width', 1);
+
+// Draw year tick groups
+const timelineTicks = timeSvg.selectAll('.tl-tick')
+    .data(yearsRange)
+    .join('g')
+    .attr('class', d => `tl-tick tl-tick-${d}`)
+    .attr('transform', d => `translate(0, ${yearYScale(d)})`);
+
+// Add tick line
+timelineTicks.append('line')
+    .attr('x1', 18)
+    .attr('x2', 26)
+    .attr('y1', 0)
+    .attr('y2', 0)
+    .attr('stroke', 'var(--rule)')
+    .attr('stroke-width', d => (d % 5 === 0 || d === 1989 || d === 2017) ? 1.5 : 1);
+
+// Add year text labels (hidden by default except milestones)
+timelineTicks.append('text')
+    .attr('x', 34)
+    .attr('y', 0)
+    .attr('dy', '0.35em')
+    .attr('fill', 'var(--ink-3)')
+    .attr('font-size', '10px')
+    .attr('font-family', 'var(--mono)')
+    .attr('class', d => `tl-tick-label ${(d % 5 === 0 || d === 1989 || d === 2017) ? 'milestone' : ''}`)
+    .text(d => d);
+
+// Make ticks clickable for smooth scrolling
+timelineTicks
+    .style('cursor', 'pointer')
+    .on('click', (event, d) => {
+        const stepIndex = d - 1989;
+        const stepEl = document.querySelectorAll('.step')[stepIndex];
+        if (stepEl) {
+            stepEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+
+// Scrubber Setup
+const scrubber = timeSvg.append('circle')
+    .attr('id', 'scrubber')
+    .attr('cx', 22)
+    .attr('r', 4)
+    .attr('fill', 'var(--amber)')
+    .attr('opacity', 0);
 
 function updateNarrativeCard(year) {
     const allUntilNow = data.filter(d => d.discoveryYear <= year && d.discoveryYear > 0);
@@ -151,10 +202,19 @@ function updateNarrativeCard(year) {
 
 let lastYear = null;
 function updateAll(year, progress) {
-    // cheap: the scrubber should track scroll continuously
+    // Position scrubber smoothly
     scrubber
         .attr('opacity', 1)
-        .attr('cy', yPosScale(progress));
+        .attr('cy', yearYScale(yearScale(progress)));
+
+    // Highlight active year on the timeline
+    timeSvg.selectAll('.tl-tick-label')
+        .classed('active', false)
+        .filter(d => d === year)
+        .classed('active', true);
+
+    timeSvg.selectAll('.tl-tick line')
+        .attr('stroke', d => d === year ? 'var(--amber)' : 'var(--rule)');
 
     // expensive: only redo when the integer year actually changes
     if (year === lastYear) return;
