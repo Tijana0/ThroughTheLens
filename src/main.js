@@ -215,23 +215,23 @@ setInterval(addLine, 1000);
 
 // ── Discovery Timeline (from main) ───────────────────────────────
 const METHOD_COLOR = {
-  'transit':         '#4a9ef0',
-  'radial velocity': '#f0a830',
-  'rv':              '#f0a830',
+  'transit':         '#f0a830',
+  'radial velocity': '#4a9ef0',
+  'rv':              '#4a9ef0',
   'imaging':         '#c070f8',
   'direct imaging':  '#c070f8',
   'microlensing':    '#5fb47c',
-  'pulsar':          '#e0524d',
-  'pulsar timing':   '#e0524d',
-  'astrometry':      '#aab2c8',
+  'timing':          '#ffffff',
+  'pulsar':          '#ffffff',
+  'pulsar timing':   '#ffffff',
 };
 function tlMethodColor(m) {
-  if (!m) return '#6a7390';
+  if (!m) return '#707a9e';
   const key = m.toLowerCase();
   for (const k of Object.keys(METHOD_COLOR)) {
     if (key.includes(k)) return METHOD_COLOR[k];
   }
-  return '#6a7390';
+  return '#707a9e';
 }
 
 function buildTimeline(planets) {

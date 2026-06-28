@@ -38,8 +38,8 @@ export default class PlanetsChart {
             .domain(d3.extent(fullFiltered, d => d.radiusJpt));
 
         this.colorScale = d3.scaleOrdinal()
-            .domain(['transit', 'RV', 'imaging', 'microlensing', 'timing'])
-            .range(['#f0a830', '#4a9ef0', '#c070f8', '#5fb47c', '#ffffff']);
+            .domain(['transit', 'rv', 'imaging', 'microlensing', 'timing', 'other'])
+            .range(['#f0a830', '#4a9ef0', '#c070f8', '#5fb47c', '#ffffff', '#707a9e']);
 
         this.opacityScale = d3.scaleLinear()
             .range([0.7, 0.05])
@@ -94,11 +94,22 @@ export default class PlanetsChart {
     renderViz() {
         const { lensArea } = this.config;
 
+        const mapMethod = (m) => {
+            if (!m) return 'other';
+            const ml = m.toLowerCase();
+            if (ml.includes('transit')) return 'transit';
+            if (ml.includes('rv') || ml.includes('radial velocity')) return 'rv';
+            if (ml.includes('imaging')) return 'imaging';
+            if (ml.includes('microlensing')) return 'microlensing';
+            if (ml.includes('timing')) return 'timing';
+            return 'other';
+        };
+
         const circles = lensArea.selectAll('.planet')
             .data(this.filteredData, d => d.planetIdentifier)
             .join('circle')
             .attr('class', d => 'planet' + (d.isIncomplete ? ' glitch-2' : ''))
-            .attr('fill', d => this.colorScale(d.discoveryMethod?.toLowerCase()))
+            .attr('fill', d => this.colorScale(mapMethod(d.discoveryMethod)))
             .style('--op', d => d.baseOpacity)
             .attr('opacity', d => d.baseOpacity)
             .style('animation-delay', d => d.isIncomplete ? (-Math.random() * 3).toFixed(2) + 's' : null)

@@ -40,8 +40,8 @@ export default class HotJupitersChart {
             .nice();
 
         this.colorScale = d3.scaleOrdinal()
-            .domain(['transit', 'RV', 'imaging', 'microlensing', 'timing'])
-            .range(['#f0a830', '#4a9ef0', '#c070f8', '#5fb47c', '#ffffff']);
+            .domain(['transit', 'rv', 'imaging', 'microlensing', 'timing', 'other'])
+            .range(['#f0a830', '#4a9ef0', '#c070f8', '#5fb47c', '#ffffff', '#707a9e']);
 
         // Gridlines
         [0.1, 1, 10, 100, 1000, 10000].forEach(v => {
@@ -87,6 +87,17 @@ export default class HotJupitersChart {
     render() {
         const tip = d3.select('#tip');
 
+        const mapMethod = (m) => {
+            if (!m) return 'other';
+            const ml = m.toLowerCase();
+            if (ml.includes('transit')) return 'transit';
+            if (ml.includes('rv') || ml.includes('radial velocity')) return 'rv';
+            if (ml.includes('imaging')) return 'imaging';
+            if (ml.includes('microlensing')) return 'microlensing';
+            if (ml.includes('timing')) return 'timing';
+            return 'other';
+        };
+
         this.g.selectAll('.planet-dot')
             .data(this.data)
             .join('circle')
@@ -94,7 +105,7 @@ export default class HotJupitersChart {
             .attr('cx', d => this.xScale(d.hostStarMetallicity))
             .attr('cy', d => this.yScale(d.periodDays))
             .attr('r', 3)
-            .attr('fill', d => this.colorScale(d.discoveryMethod?.toLowerCase()))
+            .attr('fill', d => this.colorScale(mapMethod(d.discoveryMethod)))
             .attr('opacity', 0.5)
             .style('cursor', 'crosshair')
             .style('pointer-events', 'all')
