@@ -16,7 +16,7 @@ export default class YieldChart {
             .attr('viewBox', `0 0 ${this.config.width} ${this.config.height}`)
             .attr('preserveAspectRatio', 'none');
 
-        this.margin = { top: 12, right: 10, bottom: 32, left: 50 };
+        this.margin = { top: 12, right: 10, bottom: 38, left: 50 };
         this.innerWidth = this.config.width - this.margin.left - this.margin.right;
         this.innerHeight = this.config.height - this.margin.top - this.margin.bottom;
 
@@ -125,7 +125,7 @@ export default class YieldChart {
         this.g.append('text')
             .attr('class', 'axis-title')
             .attr('x', this.innerWidth / 2)
-            .attr('y', this.innerHeight + 26)
+            .attr('y', this.innerHeight + 32)
             .attr('text-anchor', 'middle')
             .attr('fill', 'var(--ink-2)')
             .attr('font-size', '11px')
