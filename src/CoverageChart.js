@@ -85,7 +85,7 @@ export default class CoverageChart {
 
             g.rows.forEach(r => {
                 const pct = r.fill;
-                const c = pct > 0.66 ? '#5fb47c' : pct > 0.33 ? '#f0a830' : '#e0524d';
+                const c = '#8a92a8'; // single neutral fill — no fill-rate color coding
 
                 this.svg.append('text')
                     .attr('x', this.margin.left - 8)
@@ -93,7 +93,7 @@ export default class CoverageChart {
                     .attr('text-anchor', 'end')
                     .attr('font-family', 'var(--mono)')
                     .attr('font-size', 10)
-                    .attr('fill', r.key === 'ageGyr' ? '#f0a830' : '#aab2c8')
+                    .attr('fill', '#aab2c8')
                     .text(r.lbl + (r.key === 'ageGyr' ? '  ●' : ''));
 
                 this.svg.append('rect')

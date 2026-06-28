@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import { createMethodColorScale, mapMethod } from './methodColors.js';
 
 export default class HotJupitersChart {
     constructor(data, config) {
@@ -39,9 +40,7 @@ export default class HotJupitersChart {
             .range([this.innerHeight, 0])
             .nice();
 
-        this.colorScale = d3.scaleOrdinal()
-            .domain(['transit', 'rv', 'imaging', 'microlensing', 'timing', 'other'])
-            .range(['#f0a830', '#4a9ef0', '#c070f8', '#5fb47c', '#ffffff', '#707a9e']);
+        this.colorScale = createMethodColorScale();
 
         // Gridlines
         [0.1, 1, 10, 100, 1000, 10000].forEach(v => {
@@ -87,17 +86,6 @@ export default class HotJupitersChart {
     render() {
         const tip = d3.select('#tip');
 
-        const mapMethod = (m) => {
-            if (!m) return 'other';
-            const ml = m.toLowerCase();
-            if (ml.includes('transit')) return 'transit';
-            if (ml.includes('rv') || ml.includes('radial velocity')) return 'rv';
-            if (ml.includes('imaging')) return 'imaging';
-            if (ml.includes('microlensing')) return 'microlensing';
-            if (ml.includes('timing')) return 'timing';
-            return 'other';
-        };
-
         this.g.selectAll('.planet-dot')
             .data(this.data)
             .join('circle')
@@ -107,7 +95,6 @@ export default class HotJupitersChart {
             .attr('r', 3)
             .attr('fill', d => this.colorScale(mapMethod(d.discoveryMethod)))
             .attr('opacity', 0.5)
-            .style('cursor', 'crosshair')
             .style('pointer-events', 'all')
             .on('mouseenter', (event, d) => {
                 const met = d.hostStarMetallicity;

@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import { createMethodColorScale, mapMethod } from './methodColors.js';
 
 export default class HabitabilityChart {
     constructor(data, config) {
@@ -52,6 +53,9 @@ export default class HabitabilityChart {
         this.yScale = d3.scaleLog()
             .domain([0.1, 200000]) // Period in days
             .range([this.innerHeight, 0]);
+
+        // Color exoplanets by discovery method — shared scale with the lens view
+        this.colorScale = createMethodColorScale();
 
         // Undetectable Region
         const undetX0 = this.xScale(0.005);
@@ -152,9 +156,8 @@ export default class HabitabilityChart {
             .attr('cx', d => this.xScale(Math.max(0.005, Math.min(3, d.radiusJpt))))
             .attr('cy', d => this.yScale(Math.max(0.1, Math.min(200000, d.periodDays))))
             .attr('r', 2)
-            .attr('fill', '#f0a830')
-            .attr('opacity', 0.25)
-            .style('cursor', 'crosshair')
+            .attr('fill', d => this.colorScale(mapMethod(d.discoveryMethod)))
+            .attr('opacity', 0.35)
             .on('mouseenter', (event, d) => {
                 tip.classed('show', true);
                 d3.select('#tip-name').text(d.planetIdentifier);
