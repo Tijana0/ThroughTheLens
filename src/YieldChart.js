@@ -16,7 +16,7 @@ export default class YieldChart {
             .attr('viewBox', `0 0 ${this.config.width} ${this.config.height}`)
             .attr('preserveAspectRatio', 'none');
 
-        this.margin = { top: 15, right: 15, bottom: 32, left: 55 };
+        this.margin = { top: 15, right: 15, bottom: 40, left: 55 };
         this.innerWidth = this.config.width - this.margin.left - this.margin.right;
         this.innerHeight = this.config.height - this.margin.top - this.margin.bottom;
 
@@ -104,7 +104,8 @@ export default class YieldChart {
         // X Axis
         const xAxis = d3.axisBottom(this.xScale)
             .tickFormat(d3.format('d'))
-            .ticks(5);
+            .ticks(5)
+            .tickPadding(8);
 
         this.g.append('g')
             .attr('class', 'axis x-axis')
@@ -113,7 +114,8 @@ export default class YieldChart {
 
         // Y Axis
         const yAxis = d3.axisLeft(this.yScale)
-            .ticks(4);
+            .ticks(4)
+            .tickPadding(8);
 
         this.g.append('g')
             .attr('class', 'axis y-axis')
@@ -123,7 +125,7 @@ export default class YieldChart {
         this.g.append('text')
             .attr('class', 'axis-title')
             .attr('x', this.innerWidth / 2)
-            .attr('y', this.innerHeight + 28)
+            .attr('y', this.innerHeight + 34)
             .attr('text-anchor', 'middle')
             .attr('fill', 'var(--ink-2)')
             .attr('font-size', '11px')
