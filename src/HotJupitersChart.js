@@ -126,7 +126,7 @@ export default class HotJupitersChart {
                     <div class="t-row"><span class="label">Orbital Period</span><span class="val">${d.periodDays.toFixed(1)} days</span></div>
                     <div class="t-row"><span class="label">Method</span><span class="val">${d.discoveryMethod}</span></div>
                     <div class="t-row"><span class="label">Distance</span><span class="val">${isNaN(d.distFromSunParsec) ? '—' : d.distFromSunParsec.toFixed(0) + ' pc'}</span></div>
-                    <div class="t-row"><span class="label">Host Star Temp</span><span class="val">${isNaN(d.surfaceTempK) ? '—' : d.surfaceTempK.toFixed(0) + ' K'}</span></div>
+                    <div class="t-row"><span class="label">Host Star Temp</span><span class="val">${isNaN(d.hostStarTempK) ? '—' : d.hostStarTempK.toFixed(0) + ' K'}</span></div>
                     <div class="t-row"><span class="label">Discovery Year</span><span class="val">${d.discoveryYear}</span></div>
                 `);
                 
