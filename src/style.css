@@ -412,7 +412,7 @@ footer.foot a {
 
 .right-card.graphs {
   display: grid; 
-  grid-template-rows: auto 1fr auto 1fr; 
+  grid-template-rows: auto 1.3fr auto 0.7fr; 
   gap: 4px;
 }
 
