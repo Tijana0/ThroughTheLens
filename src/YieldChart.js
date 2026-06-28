@@ -16,7 +16,7 @@ export default class YieldChart {
             .attr('viewBox', `0 0 ${this.config.width} ${this.config.height}`)
             .attr('preserveAspectRatio', 'none');
 
-        this.margin = { top: 15, right: 15, bottom: 32, left: 45 };
+        this.margin = { top: 15, right: 15, bottom: 32, left: 55 };
         this.innerWidth = this.config.width - this.margin.left - this.margin.right;
         this.innerHeight = this.config.height - this.margin.top - this.margin.bottom;
 
@@ -117,16 +117,15 @@ export default class YieldChart {
             .attr('font-size', '9px')
             .text('Discovery Year');
 
-        // Y-axis label
+        // Y-axis label (horizontal at the top left of the chart)
         this.g.append('text')
             .attr('class', 'axis-title')
-            .attr('transform', 'rotate(-90)')
-            .attr('x', -this.innerHeight / 2)
-            .attr('y', -34)
-            .attr('text-anchor', 'middle')
+            .attr('x', -this.margin.left + 5)
+            .attr('y', -6)
+            .attr('text-anchor', 'start')
             .attr('fill', 'var(--ink-3)')
             .attr('font-size', '9px')
-            .text('Cumulative Discoveries');
+            .text('Cumulative Total');
         
         // Vertical highlight line
         this.highlight = this.g.append('line')
