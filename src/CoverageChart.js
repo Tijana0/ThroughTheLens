@@ -2,19 +2,19 @@ import * as d3 from 'd3';
 
 export const ATTR_GROUPS = [
   { title: 'Discovery metadata', keys: [
-      ['PlanetIdentifier','Identifier'],['LastUpdated','Last updated'],['DiscoveryYear','Discovery year'],
-      ['DiscoveryMethod','Method'],['RightAscension','RA'],['Declination','Dec'],['ListsPlanetIsOn','List'],['TypeFlag','Type flag']
+      ['planetIdentifier','Identifier'],['lastUpdated','Last updated'],['discoveryYear','Discovery year'],
+      ['discoveryMethod','Method'],['rightAscension','RA'],['declination','Dec'],['listsPlanetIsOn','List'],['typeFlag','Type flag']
   ]},
   { title: 'Host star properties', keys: [
-      ['HostStarTempK','Star temp (K)'],['HostStarMassSlrMass','Star mass (M☉)'],
-      ['HostStarRadiusSlrRad','Star radius (R☉)'],['HostStarMetallicity','[Fe/H]'],
-      ['DistFromSunParsec','Distance (pc)'],['HostStarAgeGyr','Star age (Gyr)']
+      ['hostStarTempK','Star temp (K)'],['hostStarMassSlrMass','Star mass (M☉)'],
+      ['hostStarRadiusSlrRad','Star radius (R☉)'],['hostStarMetallicity','[Fe/H]'],
+      ['distFromSunParsec','Distance (pc)'],['hostStarAgeGyr','Star age (Gyr)']
   ]},
   { title: 'Planet physical properties', keys: [
-      ['PeriodDays','Orbital period'],['RadiusJpt','Radius (Rj)'],['SemiMajorAxisAU','Semi-major axis'],
-      ['PlanetaryMassJpt','Mass (Mj)'],['Eccentricity','Eccentricity'],['SurfaceTempK','Surface temp'],
-      ['InclinationDeg','Inclination'],['PeriastronDeg','Periastron'],
-      ['AscendingNodeDeg','Asc. node'],['LongitudeDeg','Longitude'],['AgeGyr','Age (Gyr)']
+      ['periodDays','Orbital period'],['radiusJpt','Radius (Rj)'],['semiMajorAxisAU','Semi-major axis'],
+      ['planetaryMassJpt','Mass (Mj)'],['eccentricity','Eccentricity'],['surfaceTempK','Surface temp'],
+      ['inclinationDeg','Inclination'],['periastronDeg','Periastron'],
+      ['ascendingNodeDeg','Asc. node'],['longitudeDeg','Longitude'],['ageGyr','Age (Gyr)']
   ]}
 ];
 
@@ -39,12 +39,28 @@ export default class CoverageChart {
         this.innerHeight = this.config.height - this.margin.top - this.margin.bottom;
 
         const N = this.data.length;
+        const allowedZeroKeys = new Set([
+            'eccentricity',
+            'inclinationDeg',
+            'periastronDeg',
+            'ascendingNodeDeg',
+            'longitudeDeg',
+            'typeFlag'
+        ]);
+
         const groups = ATTR_GROUPS.map(g => ({
             title: g.title,
-            rows: g.keys.map(([k, lbl]) => ({
-                key: k, lbl,
-                fill: this.data.filter(d => d[k] !== '' && d[k] != null && !isNaN(d[k])).length / N
-            }))
+            rows: g.keys.map(([k, lbl]) => {
+                const fillCount = this.data.filter(d => {
+                    const val = d[k];
+                    if (val === undefined || val === null || val === '') return false;
+                    if (typeof val === 'number') {
+                        return !isNaN(val) && (val !== 0 || allowedZeroKeys.has(k));
+                    }
+                    return String(val).trim() !== '';
+                }).length;
+                return { key: k, lbl, fill: fillCount / N };
+            })
         }));
 
         let totalRows = 0;
@@ -77,8 +93,8 @@ export default class CoverageChart {
                     .attr('text-anchor', 'end')
                     .attr('font-family', 'var(--mono)')
                     .attr('font-size', 10)
-                    .attr('fill', r.key === 'AgeGyr' ? '#f0a830' : '#aab2c8')
-                    .text(r.lbl + (r.key === 'AgeGyr' ? '  ●' : ''));
+                    .attr('fill', r.key === 'ageGyr' ? '#f0a830' : '#aab2c8')
+                    .text(r.lbl + (r.key === 'ageGyr' ? '  ●' : ''));
 
                 this.svg.append('rect')
                     .attr('x', this.margin.left)
