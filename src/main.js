@@ -175,8 +175,7 @@ timelineTicks.append('text')
 // Add event description popup cards for milestone years
 const eventPopup = timelineTicks.filter(d => milestoneEvents[d])
     .append('g')
-    .attr('class', 'tl-event-popup')
-    .attr('transform', 'translate(95, -24)');
+    .attr('class', 'tl-event-popup');
 
 eventPopup.append('rect')
     .attr('rx', 4)
