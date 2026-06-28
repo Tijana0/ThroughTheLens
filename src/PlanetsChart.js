@@ -58,7 +58,8 @@ export default class PlanetsChart {
         );
 
         this.filteredData.forEach(d => {
-            // Treat 0 or NaN as incomplete for physical properties
+            // Logic from main: check 7 specific variables
+            // In main, missing values are 0 due to the '+' operator in the loader
             d.isIncomplete = !d.planetaryMassJpt ||
                 !d.radiusJpt ||
                 !d.periodDays ||
@@ -66,6 +67,8 @@ export default class PlanetsChart {
                 !d.distFromSunParsec ||
                 !d.hostStarTempK ||
                 !d.discoveryMethod;
+            
+            d.baseOpacity = d.isIncomplete ? 0.65 : 0.85;
         });
 
         this.sizeScale.domain(d3.extent(this.filteredData, d => d.radiusJpt));
@@ -76,16 +79,18 @@ export default class PlanetsChart {
 
     renderViz() {
         const { lensArea } = this.config;
-const circles = lensArea.selectAll('.planet')
-    .data(this.filteredData, d => d.planetIdentifier)
-    .join('circle')
-    .attr('class', d => d.isIncomplete ? 'planet glitch' : 'planet')
-    .attr('fill', d => this.colorScale(d.discoveryMethod?.toLowerCase()))
-    .attr('opacity', d => isNaN(d.distFromSunParsec) ? 0.5 : this.opacityScale(d.distFromSunParsec))
-    .attr('cx', d => this.xScale(d.rightAscension))
-    .attr('cy', d => this.yScale(d.declination))
-    .attr('r', d => isNaN(d.radiusJpt) ? 2 : this.sizeScale(d.radiusJpt));
 
+        const circles = lensArea.selectAll('.planet')
+            .data(this.filteredData, d => d.planetIdentifier)
+            .join('circle')
+            .attr('class', d => 'planet' + (d.isIncomplete ? ' glitch-2' : ''))
+            .attr('fill', d => this.colorScale(d.discoveryMethod?.toLowerCase()))
+            .style('--op', d => d.baseOpacity)
+            .attr('opacity', d => d.baseOpacity)
+            .style('animation-delay', d => d.isIncomplete ? (-Math.random() * 3).toFixed(2) + 's' : null)
+            .attr('cx', d => this.xScale(d.rightAscension))
+            .attr('cy', d => this.yScale(d.declination))
+            .attr('r', d => isNaN(d.radiusJpt) ? 2 : this.sizeScale(d.radiusJpt));
 
         circles.on('mouseover', (event, d) => {
             const tip = d3.select('#tip');
