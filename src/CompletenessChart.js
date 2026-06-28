@@ -72,8 +72,8 @@ export default class CompletenessChart {
             .attr('x', -8)
             .attr('text-anchor', 'end')
             .attr('alignment-baseline', 'middle')
-            .attr('fill', '#6a7390')
-            .attr('font-size', '8.5px')
+            .attr('fill', 'var(--ink-2)')
+            .attr('font-size', '11px')
             .text(d => d.label);
     }
 
