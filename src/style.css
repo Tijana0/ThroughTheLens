@@ -464,15 +464,39 @@ footer.foot a {
   fill: var(--ink-3);
 }
 
+.tl-event-label {
+  opacity: 0;
+  pointer-events: none;
+  fill: var(--ink-3);
+  transition: opacity 0.25s ease, fill 0.25s ease, transform 0.25s ease;
+  transform: translateX(-5px);
+}
+
 .tl-tick:hover .tl-tick-label {
   opacity: 1 !important;
   fill: var(--white);
 }
 
-.tl-tick-label.active {
+.tl-tick:hover .tl-event-label {
+  opacity: 0.85;
+  fill: var(--white);
+  transform: translateX(0);
+}
+
+.tl-tick.active line {
+  stroke: var(--amber) !important;
+}
+
+.tl-tick.active .tl-tick-label {
   opacity: 1 !important;
   fill: var(--amber) !important;
   font-weight: 600;
+}
+
+.tl-tick.active .tl-event-label {
+  opacity: 0.95 !important;
+  fill: var(--ink-2) !important;
+  transform: translateX(0);
 }
 
 .steps { position: relative; margin-top: -100vh; pointer-events: none; }

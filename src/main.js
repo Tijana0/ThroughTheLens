@@ -151,6 +151,16 @@ timelineTicks.append('line')
     .attr('stroke', 'var(--rule)')
     .attr('stroke-width', d => (d % 5 === 0 || d === 1992 || d === 2017) ? 1.5 : 1);
 
+const milestoneEvents = {
+    1992: "First confirmed exoplanets (pulsar PSR B1257+12)",
+    1995: "First planet around a sun-like star (51 Pegasi b)",
+    2000: "First transiting exoplanet detected (HD 209458 b)",
+    2005: "First direct imaging of an exoplanet (2M1207b)",
+    2010: "Kepler's first multi-planet systems confirmed",
+    2015: "Kepler-452b discovered ('Earth's Older Cousin')",
+    2017: "TRAPPIST-1's 7 Earth-sized planets confirmed"
+};
+
 // Add year text labels (hidden by default except milestones)
 timelineTicks.append('text')
     .attr('x', 34)
@@ -161,6 +171,18 @@ timelineTicks.append('text')
     .attr('font-family', 'var(--mono)')
     .attr('class', d => `tl-tick-label ${(d % 5 === 0 || d === 1992 || d === 2017) ? 'milestone' : ''}`)
     .text(d => d);
+
+// Add event description labels for milestone years
+timelineTicks.filter(d => milestoneEvents[d])
+    .append('text')
+    .attr('x', 72)
+    .attr('y', 0)
+    .attr('dy', '0.35em')
+    .attr('fill', 'var(--ink-3)')
+    .attr('font-size', '9px')
+    .attr('font-family', 'var(--mono)')
+    .attr('class', 'tl-event-label')
+    .text(d => milestoneEvents[d]);
 
 // Make ticks clickable for smooth scrolling
 timelineTicks
@@ -208,13 +230,10 @@ function updateAll(year, progress) {
         .attr('cy', yearYScale(yearScale(progress)));
 
     // Highlight active year on the timeline
-    timeSvg.selectAll('.tl-tick-label')
+    timeSvg.selectAll('.tl-tick')
         .classed('active', false)
         .filter(d => d === year)
         .classed('active', true);
-
-    timeSvg.selectAll('.tl-tick line')
-        .attr('stroke', d => d === year ? 'var(--amber)' : 'var(--rule)');
 
     // expensive: only redo when the integer year actually changes
     if (year === lastYear) return;
