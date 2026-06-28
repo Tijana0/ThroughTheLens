@@ -139,7 +139,7 @@ export default class YieldChart {
             .attr('text-anchor', 'start')
             .attr('fill', 'var(--ink-2)')
             .attr('font-size', '11px')
-            .text('Cumulative Total');
+            .text('Confirmed Exoplanets');
         
         // Vertical highlight line
         this.highlight = this.g.append('line')
