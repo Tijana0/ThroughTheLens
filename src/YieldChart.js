@@ -67,6 +67,18 @@ export default class YieldChart {
             .y1(d => this.yScale(d[1]))
             .curve(d3.curveMonotoneX);
 
+        // Background (grey) layers - NOT clipped
+        this.g.append('g')
+            .selectAll('.bg-layer')
+            .data(this.stackedData)
+            .join('path')
+            .attr('class', 'bg-layer')
+            .attr('d', this.area)
+            .attr('fill', '#1e2548')
+            .attr('stroke', '#060a1f')
+            .attr('stroke-width', 0.5)
+            .attr('opacity', (d, i) => 0.2 + i * 0.08);
+
         // Clip path for scroll-reveal effect
         this.defs = this.svg.append('defs');
         this.clip = this.defs.append('clipPath')
