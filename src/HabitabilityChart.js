@@ -98,8 +98,8 @@ export default class HabitabilityChart {
                 .attr('x', this.xScale(v))
                 .attr('y', this.innerHeight + 14)
                 .attr('text-anchor', 'middle')
-                .attr('fill', '#6a7390')
-                .attr('font-size', '9px')
+                .attr('fill', 'var(--ink-2)')
+                .attr('font-size', '10px')
                 .attr('font-family', 'var(--mono)')
                 .text(v + ' Rj');
         });
@@ -114,8 +114,8 @@ export default class HabitabilityChart {
                 .attr('x', -8)
                 .attr('y', this.yScale(v) + 3)
                 .attr('text-anchor', 'end')
-                .attr('fill', '#6a7390')
-                .attr('font-size', '9px')
+                .attr('fill', 'var(--ink-2)')
+                .attr('font-size', '10px')
                 .attr('font-family', 'var(--mono)')
                 .text(v + 'd');
         });
