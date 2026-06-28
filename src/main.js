@@ -183,6 +183,29 @@ modeToggle.addEventListener('change', () => {
     planets.setMode(thisYear ? 'thisYear' : 'cumulative');
 });
 
+const ssBtn = document.getElementById('ss-zoom-btn');
+let ssZoomed = false;
+ssBtn.addEventListener('click', () => {
+    ssZoomed = !ssZoomed;
+    if (ssZoomed) planets.zoomToEarth();
+    else          planets.resetZoom();
+    ssBtn.textContent = ssZoomed ? 'Back to full sky' : 'Zoom to Earth';
+});
+
+const ssToggle = document.getElementById('ss-toggle');
+ssToggle.addEventListener('change', () => {
+    const visible = ssToggle.checked;
+    planets.setSolarSystemVisible(visible);
+
+    ssBtn.disabled = !visible;            // gray out + block clicks when hidden
+
+    if (!visible && ssZoomed) {           // were zoomed into Earth → exit cleanly
+        planets.resetZoom();
+        ssZoomed = false;
+        ssBtn.textContent = 'Zoom to Earth';
+    }
+});
+
 const totalCount = data.length;
 d3.select('#term-total').text(totalCount.toLocaleString());
 

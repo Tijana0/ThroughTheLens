@@ -1,5 +1,17 @@
 import * as d3 from 'd3';
 
+const SS_STYLE = {
+  Mercury: ['#b8b0a8', '#6e6660'],
+  Venus:   ['#efd9a0', '#b08a45'],
+  Earth:   ['#6fb8ec', '#234f86'],
+  Mars:    ['#e07a52', '#8f3320'],
+  Jupiter: ['#e8d3ad', '#b07d4e'],
+  Saturn:  ['#ecdcab', '#b89a59'],
+  Uranus:  ['#bfe9e6', '#6cb6b0'],
+  Neptune: ['#6b8be0', '#283f86'],
+};
+const SS_NAMES = Object.keys(SS_STYLE);
+
 export default class PlanetsChart {
 
     constructor(data, config) {
@@ -33,6 +45,15 @@ export default class PlanetsChart {
         this.xScale.domain(d3.extent(fullFiltered, d => d.rightAscension));
         this.yScale.domain(d3.extent(fullFiltered, d => d.declination));
 
+        // Solar System reference set (kept out of the normal dot field)
+        this.solarSystem = this.data.filter(d => SS_NAMES.includes(d.planetIdentifier));
+
+        // horizontal "mini solar system" layout, spaced by true orbital distance
+        this.ssY = cy + 85;
+        this.ssXScale = d3.scaleLog()
+            .domain([0.3, 31])          // ~Mercury (0.39 AU) → Neptune (30 AU)
+            .range([cx - 90, cx + 90]); // kept inside the lens clip circle
+
         this.sizeScale = d3.scaleSqrt()
             .range([3,10])
             .domain(d3.extent(fullFiltered, d => d.radiusJpt));
@@ -45,13 +66,100 @@ export default class PlanetsChart {
             .range([0.7, 0.05])
             .domain(d3.extent(fullFiltered, d => d.distFromSunParsec));
 
-        const zoom = d3.zoom()
-            .scaleExtent([1, 8])  // min zoom 1x, max zoom 8x
+        this.zoom = d3.zoom()
+            .scaleExtent([1, 20])  // raised so the tiny planets can be magnified
             .on('zoom', (event) => {
                 this.config.lensArea.attr('transform', event.transform);
             });
 
-        d3.select(this.config.parentElement).call(zoom);
+        d3.select(this.config.parentElement).call(this.zoom);
+
+        this.drawSolarSystem();     // static layer — drawn once
+    }
+
+    drawSolarSystem() {
+        // gradient per planet → a lit-sphere look
+        const defs = d3.select(this.config.parentElement).append('defs');
+        Object.entries(SS_STYLE).forEach(([name, [light, dark]]) => {
+            const g = defs.append('radialGradient')
+                .attr('id', `ss-${name}`)
+                .attr('cx', '35%').attr('cy', '35%').attr('r', '65%');
+            g.append('stop').attr('offset', '0%').attr('stop-color', light);
+            g.append('stop').attr('offset', '100%').attr('stop-color', dark);
+        });
+
+        this.ssGroup = this.config.lensArea.append('g').attr('class', 'solar-system');
+
+        // a small sun at the left end of the row
+        this.ssGroup.append('circle')
+            .attr('class', 'ss-sun')
+            .attr('cx', this.ssXScale.range()[0] - 12)
+            .attr('cy', this.ssY)
+            .attr('r', 4)
+            .attr('fill', '#ffd45e');
+
+        const node = this.ssGroup.selectAll('.ss-planet')
+            .data(this.solarSystem, d => d.planetIdentifier)
+            .join('g')
+            .attr('class', 'ss-planet')
+            .attr('transform', d => `translate(${this.ssXScale(d.SemiMajorAxisAU)},${this.ssY})`);
+
+        // Saturn's ring first, so the body paints over it
+        node.filter(d => d.planetIdentifier === 'Saturn')
+            .append('ellipse')
+            .attr('rx', d => this.sizeScale(d.radiusJpt) * 1.9)
+            .attr('ry', d => this.sizeScale(d.radiusJpt) * 0.55)
+            .attr('fill', 'none')
+            .attr('stroke', '#d8c184')
+            .attr('stroke-width', 0.7)
+            .attr('transform', 'rotate(-18)');
+
+        node.append('circle')
+            .attr('r', d => this.sizeScale(d.radiusJpt))
+            .attr('fill', d => `url(#ss-${d.planetIdentifier})`);
+
+        // hover tooltip, reusing the exoplanet tip
+        node.on('mouseover', (event, d) => {
+            const tip = d3.select('#tip');
+            tip.classed('show', true);
+            d3.select('#tip-name').text(d.planetIdentifier);
+            d3.select('#tip-body').html(`
+                <div class="t-row"><span class="label">Solar System</span><span class="val">reference</span></div>
+                <div class="t-row"><span class="label">Distance</span><span class="val">${isNaN(d.SemiMajorAxisAU) ? '—' : d.SemiMajorAxisAU.toFixed(2)} AU</span></div>
+                <div class="t-row"><span class="label">Radius</span><span class="val">${isNaN(d.radiusJpt) ? '—' : d.radiusJpt.toFixed(3)} Rjpt</span></div>
+            `);
+        });
+        node.on('mousemove', (event) => {
+            d3.select('#tip')
+                .style('left', (event.clientX + 20) + 'px')
+                .style('top',  (event.clientY - 20) + 'px');
+        });
+        node.on('mouseleave', () => d3.select('#tip').classed('show', false));
+    }
+
+    zoomToEarth() {
+        const { cx, cy } = this.config;
+        const earth = this.solarSystem.find(p => p.planetIdentifier === 'Earth');
+        if (!earth) return;
+        const k = 14;   // strong zoom — Earth is tiny
+        const fx = this.ssXScale(earth.SemiMajorAxisAU);  // Earth's x in the row
+        const fy = this.ssY;
+        const t = d3.zoomIdentity
+            .translate(cx - fx * k, cy - fy * k)          // put Earth at lens center
+            .scale(k);
+        d3.select(this.config.parentElement)
+            .transition().duration(750)
+            .call(this.zoom.transform, t);
+    }
+
+    resetZoom() {
+        d3.select(this.config.parentElement)
+            .transition().duration(750)
+            .call(this.zoom.transform, d3.zoomIdentity);
+    }
+
+    setSolarSystemVisible(visible) {
+        if (this.ssGroup) this.ssGroup.attr('display', visible ? null : 'none');
     }
 
     updateViz(year) {
@@ -100,6 +208,7 @@ const circles = lensArea.selectAll('.planet')
     .attr('cy', d => this.yScale(d.declination))
     .attr('r', d => isNaN(d.radiusJpt) ? 2 : this.sizeScale(d.radiusJpt));
 
+        if (this.ssGroup) this.ssGroup.raise();
 
         circles.on('mouseover', (event, d) => {
             const tip = d3.select('#tip');
