@@ -113,8 +113,8 @@ export default class YieldChart {
             .attr('x', this.innerWidth / 2)
             .attr('y', this.innerHeight + 28)
             .attr('text-anchor', 'middle')
-            .attr('fill', 'var(--ink-3)')
-            .attr('font-size', '9px')
+            .attr('fill', 'var(--ink-2)')
+            .attr('font-size', '11px')
             .text('Discovery Year');
 
         // Y-axis label (horizontal at the top left of the chart)
@@ -123,8 +123,8 @@ export default class YieldChart {
             .attr('x', -this.margin.left + 5)
             .attr('y', -6)
             .attr('text-anchor', 'start')
-            .attr('fill', 'var(--ink-3)')
-            .attr('font-size', '9px')
+            .attr('fill', 'var(--ink-2)')
+            .attr('font-size', '11px')
             .text('Cumulative Total');
         
         // Vertical highlight line
