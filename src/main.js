@@ -113,15 +113,15 @@ const discoveryShareChart = new DiscoveryShareChart(data, {
 
 // Timeline Setup
 const timeSvg = d3.select('#timeline-svg');
-const yearsRange = d3.range(1989, 2018);
+const yearsRange = d3.range(1992, 2018);
 
 const yearScale = d3.scaleLinear()
     .domain([0, 1])
-    .range([1989, 2017])
+    .range([1992, 2017])
     .clamp(true);
 
 const yearYScale = d3.scaleLinear()
-    .domain([1989, 2017])
+    .domain([1992, 2017])
     .range([110, window.innerHeight - 60])
     .clamp(true);
 
@@ -129,7 +129,7 @@ const yearYScale = d3.scaleLinear()
 timeSvg.append('line')
     .attr('class', 'timeline-axis-line')
     .attr('x1', 22)
-    .attr('y1', yearYScale(1989))
+    .attr('y1', yearYScale(1992))
     .attr('x2', 22)
     .attr('y2', yearYScale(2017))
     .attr('stroke', 'var(--rule)')
@@ -149,7 +149,7 @@ timelineTicks.append('line')
     .attr('y1', 0)
     .attr('y2', 0)
     .attr('stroke', 'var(--rule)')
-    .attr('stroke-width', d => (d % 5 === 0 || d === 1989 || d === 2017) ? 1.5 : 1);
+    .attr('stroke-width', d => (d % 5 === 0 || d === 1992 || d === 2017) ? 1.5 : 1);
 
 // Add year text labels (hidden by default except milestones)
 timelineTicks.append('text')
@@ -159,14 +159,14 @@ timelineTicks.append('text')
     .attr('fill', 'var(--ink-3)')
     .attr('font-size', '10px')
     .attr('font-family', 'var(--mono)')
-    .attr('class', d => `tl-tick-label ${(d % 5 === 0 || d === 1989 || d === 2017) ? 'milestone' : ''}`)
+    .attr('class', d => `tl-tick-label ${(d % 5 === 0 || d === 1992 || d === 2017) ? 'milestone' : ''}`)
     .text(d => d);
 
 // Make ticks clickable for smooth scrolling
 timelineTicks
     .style('cursor', 'pointer')
     .on('click', (event, d) => {
-        const stepIndex = d - 1989;
+        const stepIndex = d - 1992;
         const stepEl = document.querySelectorAll('.step')[stepIndex];
         if (stepEl) {
             stepEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -241,7 +241,7 @@ scroller
         updateAll(year, globalProgress);
     });
 
-updateAll(1989, 0);
+updateAll(1992, 0);
 
 const modeToggle = document.getElementById('ll-mode-toggle');
 const modeText   = document.getElementById('ll-mode-text');

@@ -2,7 +2,7 @@ import * as d3 from 'd3';
 
 export default class YieldChart {
     constructor(data, config) {
-        this.data = data.filter(d => d.discoveryYear >= 1989 && d.discoveryYear <= 2017);
+        this.data = data.filter(d => d.discoveryYear >= 1992 && d.discoveryYear <= 2017);
         this.config = {
             parentElement: config.parentElement,
             width: 380,
@@ -24,7 +24,7 @@ export default class YieldChart {
             .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
 
         // Prepare Cumulative Stacked Data
-        const years = d3.range(1989, 2018);
+        const years = d3.range(1992, 2018);
         const methods = ['Transit', 'RV', 'Imaging', 'Microlensing', 'Timing', 'Other'];
         
         const mapMethod = (m) => {
@@ -47,7 +47,7 @@ export default class YieldChart {
         });
 
         this.xScale = d3.scaleLinear()
-            .domain([1989, 2017])
+            .domain([1992, 2017])
             .range([0, this.innerWidth]);
 
         this.yScale = d3.scaleLinear()
@@ -140,7 +140,7 @@ export default class YieldChart {
     }
 
     setYear(year) {
-        if (year < 1989) {
+        if (year < 1992) {
             this.clip.attr('width', 0);
             this.highlight.attr('opacity', 0);
             return;

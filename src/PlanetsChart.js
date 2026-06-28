@@ -60,6 +60,7 @@ export default class PlanetsChart {
 
         this.filteredData = this.data.filter(d => {
             if (isNaN(d.rightAscension) || isNaN(d.declination)) return false;
+            if (isNaN(d.discoveryYear) || d.discoveryYear <= 0) return false;
             if (!year) return true;
             return this.mode === 'thisYear'
                 ? d.discoveryYear === year      // only planets discovered this year
