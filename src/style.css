@@ -281,10 +281,15 @@ header.cover h1 {
 }
 
 .panel .blurb {
-  color: var(--ink-2); 
-  font-size: 13.5px; 
+  color: var(--ink-2);
+  font-size: 13.5px;
   line-height: 1.6;
   margin: 0;
+}
+
+/* extra breathing room between the blurb text and the legend in panels */
+.panel .legend {
+  margin-top: 20px;
 }
 
 @media (max-width: 1050px) {
@@ -603,7 +608,7 @@ footer.foot a {
 .glitch-3 { animation: flicker 1.3s steps(8, end) infinite, jitter 0.5s steps(6, end) infinite; }
 .glitch-4 { animation: flicker 0.9s steps(8, end) infinite, jitter 0.32s steps(6, end) infinite; }
 
-circle.planet { transition: r 0.4s ease, opacity 0.4s ease, fill 0.4s ease; }
+circle.planet { --op: 1; transition: r 0.4s ease, opacity 0.4s ease, fill 0.4s ease; }
 
 
 /* Planet Timeline Styles (from main) */

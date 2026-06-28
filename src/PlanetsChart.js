@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import { createMethodColorScale, mapMethod } from './methodColors.js';
 
 const SS_STYLE = {
   Mercury: ['#b8b0a8', '#6e6660'],
@@ -58,9 +59,7 @@ export default class PlanetsChart {
             .range([3,10])
             .domain(d3.extent(fullFiltered, d => d.radiusJpt));
 
-        this.colorScale = d3.scaleOrdinal()
-            .domain(['transit', 'rv', 'imaging', 'microlensing', 'timing', 'other'])
-            .range(['#f0a830', '#4a9ef0', '#e84393', '#5fb47c', '#ffffff', '#707a9e']);
+        this.colorScale = createMethodColorScale();
 
         this.opacityScale = d3.scaleLinear()
             .range([0.7, 0.05])
@@ -202,17 +201,6 @@ export default class PlanetsChart {
 
     renderViz() {
         const { lensArea } = this.config;
-
-        const mapMethod = (m) => {
-            if (!m) return 'other';
-            const ml = m.toLowerCase();
-            if (ml.includes('transit')) return 'transit';
-            if (ml.includes('rv') || ml.includes('radial velocity')) return 'rv';
-            if (ml.includes('imaging')) return 'imaging';
-            if (ml.includes('microlensing')) return 'microlensing';
-            if (ml.includes('timing')) return 'timing';
-            return 'other';
-        };
 
         const circles = lensArea.selectAll('.planet')
             .data(this.filteredData, d => d.planetIdentifier)
