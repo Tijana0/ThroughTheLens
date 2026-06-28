@@ -292,6 +292,11 @@ footer.foot a {
   gap: 28px; align-items: stretch; padding: 24px 0;
 }
 .timeline-col { border-right: 1px solid var(--rule); position: relative; }
+.timeline-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 .lens-col { 
   display: flex; 
   flex-direction: column; 
