@@ -128,9 +128,9 @@ const yearYScale = d3.scaleLinear()
 // Draw the vertical axis line
 timeSvg.append('line')
     .attr('class', 'timeline-axis-line')
-    .attr('x1', 280)
+    .attr('x1', 22)
     .attr('y1', yearYScale(1992))
-    .attr('x2', 280)
+    .attr('x2', 22)
     .attr('y2', yearYScale(2017))
     .attr('stroke', 'var(--rule)')
     .attr('stroke-width', 1);
@@ -144,46 +144,56 @@ const timelineTicks = timeSvg.selectAll('.tl-tick')
 
 // Add tick line
 timelineTicks.append('line')
-    .attr('x1', 274)
-    .attr('x2', 280)
+    .attr('x1', 18)
+    .attr('x2', 26)
     .attr('y1', 0)
     .attr('y2', 0)
     .attr('stroke', 'var(--rule)')
     .attr('stroke-width', d => (d % 5 === 0 || d === 1992 || d === 2017) ? 1.5 : 1);
 
 const milestoneEvents = {
-    1992: "First confirmed exoplanets",
-    1995: "First planet around a sun-like star",
-    2000: "First transiting exoplanet detected",
-    2005: "First direct imaging of an exoplanet",
+    1992: "First confirmed exoplanets (pulsar PSR B1257+12)",
+    1995: "First planet around a sun-like star (51 Pegasi b)",
+    2000: "First transiting exoplanet detected (HD 209458 b)",
+    2005: "First direct imaging of an exoplanet (2M1207b)",
     2010: "Kepler's first multi-planet systems confirmed",
-    2015: "Kepler-452b discovered",
-    2017: "TRAPPIST-1 system confirmed"
+    2015: "Kepler-452b discovered ('Earth's Older Cousin')",
+    2017: "TRAPPIST-1's 7 Earth-sized planets confirmed"
 };
 
 // Add year text labels (hidden by default except milestones)
 timelineTicks.append('text')
-    .attr('x', 264)
+    .attr('x', 34)
     .attr('y', 0)
     .attr('dy', '0.35em')
-    .attr('text-anchor', 'end')
     .attr('fill', 'var(--ink-3)')
     .attr('font-size', '10px')
     .attr('font-family', 'var(--mono)')
     .attr('class', d => `tl-tick-label ${(d % 5 === 0 || d === 1992 || d === 2017) ? 'milestone' : ''}`)
     .text(d => d);
 
-// Add event description labels for milestone years
-timelineTicks.filter(d => milestoneEvents[d])
-    .append('text')
-    .attr('x', 224)
-    .attr('y', 0)
+// Add event description popup cards for milestone years
+const eventPopup = timelineTicks.filter(d => milestoneEvents[d])
+    .append('g')
+    .attr('class', 'tl-event-popup')
+    .attr('transform', 'translate(72, -14)');
+
+eventPopup.append('rect')
+    .attr('rx', 4)
+    .attr('ry', 4)
+    .attr('width', 295)
+    .attr('height', 28)
+    .attr('fill', 'var(--bg-2)')
+    .attr('stroke', 'var(--rule)')
+    .attr('stroke-width', 1);
+
+eventPopup.append('text')
+    .attr('x', 10)
+    .attr('y', 14)
     .attr('dy', '0.35em')
-    .attr('text-anchor', 'end')
-    .attr('fill', 'var(--ink-3)')
-    .attr('font-size', '9px')
+    .attr('fill', 'var(--ink-1)')
+    .attr('font-size', '9.5px')
     .attr('font-family', 'var(--mono)')
-    .attr('class', 'tl-event-label')
     .text(d => milestoneEvents[d]);
 
 // Make ticks clickable for smooth scrolling
@@ -200,7 +210,7 @@ timelineTicks
 // Scrubber Setup
 const scrubber = timeSvg.append('circle')
     .attr('id', 'scrubber')
-    .attr('cx', 280)
+    .attr('cx', 22)
     .attr('r', 4)
     .attr('fill', 'var(--amber)')
     .attr('opacity', 0);
