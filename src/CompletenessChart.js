@@ -60,7 +60,7 @@ export default class CompletenessChart {
             .attr('y', d => this.yScale(d.label))
             .attr('x', 0)
             .attr('height', this.yScale.bandwidth())
-            .attr('fill', 'var(--amber)')
+            .attr('fill', 'var(--ink-2)')
             .attr('width', 0);
 
         // Labels
