@@ -339,21 +339,103 @@ ssToggle.addEventListener('change', () => {
 const totalCount = data.length;
 d3.select('#term-total').text(totalCount.toLocaleString());
 
-const streamContainer = d3.select('#term-stream');
-function addLine() {
-    const d = data[Math.floor(Math.random() * data.length)];
-    const massVal = isNaN(d.planetaryMassJpt) ? '<span class="err">[ERR]</span>' : `<span class="val">${d.planetaryMassJpt.toFixed(2)} Mj</span>`;
-    const tempVal = isNaN(d.surfaceTempK) ? '<span class="err">[NULL]</span>' : `<span class="val">${d.surfaceTempK}K</span>`;
+const extremePlanets = [
+    {
+        name: "KELT-9b",
+        record: "HOTTEST WORLD",
+        telemetry: [
+            "TEMP: 4,600 K (4,300°C)",
+            "MASS: 2.88 Jupiter masses",
+            "ORBIT: 1.48 days (Ultra-short)",
+            "STABILITY: Atmospheric escape detected",
+            "CLASSIFICATION: Ultra-hot Jupiter",
+            "NOTE: Hotter than 80% of all stars."
+        ]
+    },
+    {
+        name: "TrES-2b",
+        record: "DARKEST WORLD",
+        telemetry: [
+            "ALBEDO: < 1% (Reflects less than coal)",
+            "TEMP: 1,200 K (930°C)",
+            "MASS: 1.20 Jupiter masses",
+            "DISTANCE: 750 light-years",
+            "CLASSIFICATION: Hot Jupiter",
+            "NOTE: Eerily glowing with a faint red heat."
+        ]
+    },
+    {
+        name: "Kepler-51b",
+        record: "PUFFIEST WORLD",
+        telemetry: [
+            "DENSITY: 0.1 g/cm³ (Like cotton candy)",
+            "MASS: 2.1 Earth masses",
+            "RADIUS: 7.1 Earth radii",
+            "ATMOSPHERE: Hydrogen-helium haze",
+            "CLASSIFICATION: Super-Puff",
+            "NOTE: Has the density of polystyrene foam."
+        ]
+    },
+    {
+        name: "Kepler-70b",
+        record: "FASTEST ORBIT",
+        telemetry: [
+            "PERIOD: 5.7 hours",
+            "ORBITAL SPEED: 273 km/s",
+            "TEMP: 7,600 K (Evaporating)",
+            "MASS: 0.44 Earth masses",
+            "CLASSIFICATION: Chthonian planet",
+            "NOTE: Survives inside its star's former envelope."
+        ]
+    },
+    {
+        name: "Proxima Centauri b",
+        record: "NEAREST HABITABLE",
+        telemetry: [
+            "DISTANCE: 4.24 light-years",
+            "MASS: 1.17 Earth masses",
+            "PERIOD: 11.2 days",
+            "HZ INDEX: 0.82 (Habitable Zone)",
+            "CLASSIFICATION: Terrestrial planet",
+            "NOTE: Orbiting our closest stellar neighbor."
+        ]
+    }
+];
 
+const streamContainer = d3.select('#term-stream');
+let extremeIndex = 0;
+let currentTimers = [];
+
+function scanExtremePlanet() {
+    // Clear any pending timeouts to prevent overlapping animations
+    currentTimers.forEach(clearTimeout);
+    currentTimers = [];
+
+    const p = extremePlanets[extremeIndex];
+    streamContainer.html(''); // Clear previous scan
+    
+    // Add header
     streamContainer.append('div')
         .attr('class', 'term-line')
-        .html(`ID: ${d.planetIdentifier.slice(0,16).padEnd(16)} <span>|</span> MASS: ${massVal} <span>|</span> TEMP: ${tempVal}`);
+        .style('color', 'var(--amber)')
+        .style('font-weight', '600')
+        .html(`[SCANNING] ${p.record}: ${p.name}`);
+        
+    // Add telemetry lines sequentially
+    p.telemetry.forEach((line, i) => {
+        const timer = setTimeout(() => {
+            const parts = line.split(':');
+            const label = parts[0];
+            const value = parts.slice(1).join(':');
+            streamContainer.append('div')
+                .attr('class', 'term-line')
+                .html(`&gt; ${label}:<span class="val">${value}</span>`);
+        }, (i + 1) * 250);
+        currentTimers.push(timer);
+    });
 
-    const lines = streamContainer.selectAll('.term-line');
-    if (lines.size() > 8) {
-        lines.filter((d, i) => i === 0).remove();
-    }
+    extremeIndex = (extremeIndex + 1) % extremePlanets.length;
 }
-setInterval(addLine, 1000);
 
-
+scanExtremePlanet();
+setInterval(scanExtremePlanet, 4500);

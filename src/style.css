@@ -123,7 +123,7 @@ header.cover h1 {
 .terminal-content {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
-  min-height: 140px;
+  min-height: 160px;
 }
 
 .terminal-col {
@@ -160,7 +160,7 @@ header.cover h1 {
 .term-stream-content {
   font-size: 10px;
   line-height: 1.8;
-  height: 90px;
+  height: 120px;
   overflow: hidden;
   position: relative;
   mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
