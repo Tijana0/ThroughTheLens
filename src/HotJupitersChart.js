@@ -20,7 +20,7 @@ export default class HotJupitersChart {
             .attr('viewBox', `0 0 ${this.config.width} ${this.config.height}`)
             .attr('preserveAspectRatio', 'xMidYMid meet');
 
-        this.margin = { top: 20, right: 20, bottom: 40, left: 75 };
+        this.margin = { top: 20, right: 20, bottom: 40, left: 85 };
         this.innerWidth = this.config.width - this.margin.left - this.margin.right;
         this.innerHeight = this.config.height - this.margin.top - this.margin.bottom;
 
@@ -74,7 +74,7 @@ export default class HotJupitersChart {
         this.g.append('text')
             .attr('transform', 'rotate(-90)')
             .attr('x', -this.innerHeight / 2)
-            .attr('y', -60)
+            .attr('y', -70)
             .attr('text-anchor', 'middle')
             .attr('fill', '#6a7390')
             .attr('font-size', '10px')
