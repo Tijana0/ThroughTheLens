@@ -152,36 +152,41 @@
 
 <div class="deck">
   <div class="panel">
-    <div class="crest"><span>Panel 01</span><span>Scatter · log–lin</span></div>
-    <h3>Hot Jupiters cluster around metal&#8209;rich suns.</h3>
-    <div class="body"><svg id="p1-svg" viewBox="0 0 620 360" preserveAspectRatio="xMidYMid meet"></svg></div>
-    <div class="legend">
-      <span><span class="sw" style="background:#f0a830"></span>Transit</span>
-      <span><span class="sw" style="background:#4a9ef0"></span>Radial velocity</span>
-      <span><span class="sw" style="background:#c070f8"></span>Imaging / µlens / timing</span>
+    <div class="panel-text">
+      <div class="crest"><span>Panel 01</span><span>Scatter · log–lin</span></div>
+      <h3>Hot Jupiters cluster around metal&#8209;rich suns.</h3>
+      <p class="blurb">Giant gas planets orbiting extremely close to their stars—known as "Hot Jupiters"—are far more common around stars with high metal content (metallicity). This provides strong evidence for the core accretion model of planet formation, where heavy elements are needed to rapidly build planet cores before the stellar gas dissipates.</p>
+      <div class="legend">
+        <span><span class="sw" style="background:#f0a830"></span>Transit</span>
+        <span><span class="sw" style="background:#4a9ef0"></span>Radial velocity</span>
+        <span><span class="sw" style="background:#c070f8"></span>Imaging / µlens / timing</span>
+      </div>
+    </div>
+    <div class="panel-body">
+      <svg id="p1-svg" viewBox="0 0 620 360" preserveAspectRatio="xMidYMid meet"></svg>
     </div>
   </div>
 
   <div class="panel">
-    <div class="crest"><span>Panel 02</span><span>Bubble · log–log</span></div>
-    <h3>Earth lives in the dark.</h3>
-    <p class="blurb">All confirmed exoplanets in faint amber, our Solar System in white. If an alien civilization used our current technology to look at our Solar System, they wouldn't see Earth. In our grand catalogue of worlds, our home is invisible.</p>
-    <div class="body"><svg id="p2-svg" viewBox="0 0 620 360" preserveAspectRatio="xMidYMid meet"></svg></div>
+    <div class="panel-text">
+      <div class="crest"><span>Panel 02</span><span>Bubble · log–log</span></div>
+      <h3>Earth lives in the dark.</h3>
+      <p class="blurb">All confirmed exoplanets are plotted in faint amber, with our own Solar System planets highlighted in white. If an alien civilization used our current technology to look at our Solar System, they would not be able to detect Earth. Our home planet is too small and too far from the Sun to be seen with our current instruments—meaning the universe could be full of Earths that remain invisible to us.</p>
+    </div>
+    <div class="panel-body">
+      <svg id="p2-svg" viewBox="0 0 620 360" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
   </div>
 
   <div class="panel">
-    <div class="crest"><span>Panel 03</span><span>Coverage · 25 fields</span></div>
-    <h3>The columns we leave blank.</h3>
-    <p class="blurb">Fill rate across every attribute. Identity and timing are essentially complete; the physics of the planet itself thins out fast. <span style="color:var(--amber)">AgeGyr</span> is filled for less than 1 % of catalogued worlds.</p>
-    <div class="body"><svg id="p3-svg" viewBox="0 0 620 500" preserveAspectRatio="xMidYMid meet"></svg></div>
-  </div>
-
-  <div class="panel">
-    <div class="crest"><span>Panel 04</span><span>Donut · share of N</span></div>
-    <h3>Who found them.</h3>
-    <p class="blurb">Discovery method, expressed as a share of every confirmed planet in the catalogue. Hover any wedge for example bodies. All entries are drawn from peer&#8209;reviewed announcements.</p>
-    <div class="body"><svg id="p4-svg" viewBox="0 0 620 360" preserveAspectRatio="xMidYMid meet"></svg></div>
-    <div id="p4-note" style="margin-top:10px; color:var(--ink-3); font-size:10.5px; letter-spacing:0.16em; text-transform:uppercase;">Hover a wedge · examples appear here</div>
+    <div class="panel-text">
+      <div class="crest"><span>Panel 03</span><span>Coverage · 25 fields</span></div>
+      <h3>The columns we leave blank.</h3>
+      <p class="blurb">This chart shows the fill rate across 25 different planetary and stellar attributes in the catalog. While basic metadata like the discovery year and method are 100% complete, critical physical properties quickly thin out. For instance, the planet's age (<span style="color:var(--amber)">ageGyr</span>) is recorded for less than 1% of all discovered worlds, highlighting how much we still have to learn about these distant systems.</p>
+    </div>
+    <div class="panel-body">
+      <svg id="p3-svg" viewBox="0 0 620 500" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
   </div>
 </div>
 

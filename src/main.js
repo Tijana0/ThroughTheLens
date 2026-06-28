@@ -7,7 +7,6 @@ import YieldChart from "./YieldChart.js";
 import CompletenessChart from "./CompletenessChart.js";
 import HabitabilityChart from "./HabitabilityChart.js";
 import CoverageChart from "./CoverageChart.js";
-import DiscoveryShareChart from "./DiscoveryShareChart.js";
 import HotJupitersChart from "./HotJupitersChart.js";
 
 // parsing functions
@@ -107,9 +106,7 @@ const coverageChart = new CoverageChart(data, {
     parentElement: '#p3-svg'
 });
 
-const discoveryShareChart = new DiscoveryShareChart(data, {
-    parentElement: '#p4-svg'
-});
+
 
 // Timeline Setup
 const timeSvg = d3.select('#timeline-svg');
