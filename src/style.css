@@ -36,7 +36,7 @@ header.cover h1 {
 
 header.cover h1 em {
   font-style: italic;
-  color: var(--ink-2);
+  color: var(--amber);
   text-shadow: none;
   filter: none;
 }
