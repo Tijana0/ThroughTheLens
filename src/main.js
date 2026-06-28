@@ -152,13 +152,13 @@ timelineTicks.append('line')
     .attr('stroke-width', d => (d % 5 === 0 || d === 1992 || d === 2017) ? 1.5 : 1);
 
 const milestoneEvents = {
-    1992: "First confirmed exoplanets (pulsar PSR B1257+12)",
-    1995: "First planet around a sun-like star (51 Pegasi b)",
-    2000: "First transiting exoplanet detected (HD 209458 b)",
-    2005: "First direct imaging of an exoplanet (2M1207b)",
+    1992: "First confirmed exoplanets",
+    1995: "First planet around a sun-like star",
+    2000: "First transiting exoplanet detected",
+    2005: "First direct imaging of an exoplanet",
     2010: "Kepler's first multi-planet systems confirmed",
-    2015: "Kepler-452b discovered ('Earth's Older Cousin')",
-    2017: "TRAPPIST-1's 7 Earth-sized planets confirmed"
+    2015: "Kepler-452b discovered",
+    2017: "TRAPPIST-1 system confirmed"
 };
 
 // Add year text labels (hidden by default except milestones)
