@@ -3,9 +3,9 @@
   --bg-2: #060a1f;
   --panel: #0a0f24;
   --ink-1: #e8ecf5;
-  --ink-2: #aab2c8;
-  --ink-3: #6a7390;
-  --ink-4: #3a425c;
+  --ink-2: #cbd5e1;
+  --ink-3: #94a3b8;
+  --ink-4: #4e5b7f;
   --rule: #1a2140;
   --rule-soft: #11172e;
   --amber: #f0a830;
@@ -24,8 +24,8 @@ html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink-1); 
 body {
   font-family: var(--mono);
   font-weight: 400;
-  font-size: 13px;
-  line-height: 1.55;
+  font-size: 14.5px;
+  line-height: 1.6;
   letter-spacing: 0.01em;
   overflow-x: hidden;
   background:
@@ -224,8 +224,8 @@ header.cover h1 {
 
 .panel .blurb {
   color: var(--ink-2); 
-  font-size: 12px; 
-  line-height: 1.5; 
+  font-size: 13.5px; 
+  line-height: 1.6; 
   margin-bottom: 16px;
   max-width: 520px;
 }
@@ -262,7 +262,7 @@ footer.foot a {
 .tip {
   position: fixed; pointer-events: none; z-index: 100;
   background: var(--bg-2); border: 1px solid var(--rule); padding: 10px 12px;
-  font-family: var(--mono); font-size: 11px; color: var(--ink-1);
+  font-family: var(--mono); font-size: 12px; color: var(--ink-1);
   min-width: 180px; opacity: 0; transition: opacity 0.15s ease;
   box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
@@ -271,7 +271,7 @@ footer.foot a {
 
 .tip .t-name {
   color: var(--amber); font-weight: 600; margin-bottom: 8px; text-transform: uppercase;
-  font-size: 12px; border-bottom: 1px solid var(--rule); padding-bottom: 4px;
+  font-size: 13px; border-bottom: 1px solid var(--rule); padding-bottom: 4px;
 }
 
 .tip .t-row {
@@ -279,7 +279,7 @@ footer.foot a {
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 2px;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .tip .t-row .label { color: var(--ink-3); }
@@ -329,7 +329,7 @@ footer.foot a {
   justify-content: space-between; 
   align-items: baseline; 
   margin-bottom: 8px;
-  font-size: 9.5px; 
+  font-size: 11px; 
   letter-spacing: 0.28em; 
   color: var(--ink-3); 
   text-transform: uppercase;
@@ -345,7 +345,7 @@ footer.foot a {
 
 .right-card.graphs h3 {
   font-family: var(--mono); 
-  font-size: 9.5px; 
+  font-size: 11px; 
   color: var(--ink-3); 
   margin: 0;
   letter-spacing: 0.22em; 
@@ -382,8 +382,8 @@ footer.foot a {
 
 .narrative .scene-text {
   font-family: var(--serif); 
-  font-size: 17px; 
-  line-height: 1.4; 
+  font-size: 19px; 
+  line-height: 1.5; 
   color: var(--ink-1);
   margin-top: 4px;
 }
@@ -394,7 +394,7 @@ footer.foot a {
   border-top: 1px dashed var(--rule);
   display: flex; 
   justify-content: space-between; 
-  font-size: 10.5px; 
+  font-size: 12px; 
   color: var(--ink-3);
 }
 
@@ -406,7 +406,7 @@ footer.foot a {
   display: flex;
   gap: 12px;
   margin: 4px 0 8px;
-  font-size: 8.5px;
+  font-size: 10px;
   color: var(--ink-3);
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -503,7 +503,7 @@ circle.planet { transition: r 0.4s ease, opacity 0.4s ease, fill 0.4s ease; }
 
 .tl-header-count {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 13px;
   color: var(--ink-3);
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -512,7 +512,7 @@ circle.planet { transition: r 0.4s ease, opacity 0.4s ease, fill 0.4s ease; }
 .tl-bar-legend {
   display: flex;
   gap: 16px;
-  font-size: 10px;
+  font-size: 11px;
   color: var(--ink-3);
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -575,7 +575,7 @@ circle.planet { transition: r 0.4s ease, opacity 0.4s ease, fill 0.4s ease; }
   padding: 4px 10px;
   background: rgba(26, 33, 64, 0.4);
   border: 1px solid var(--rule-soft);
-  font-size: 11px;
+  font-size: 12px;
   cursor: pointer;
   transition: border-color 0.2s, background 0.2s;
 }
@@ -592,4 +592,4 @@ circle.planet { transition: r 0.4s ease, opacity 0.4s ease, fill 0.4s ease; }
 }
 
 .tl-planet-name { color: var(--ink-2); }
-.tl-planet-method { color: var(--ink-4); font-size: 9px; text-transform: uppercase; }
+.tl-planet-method { color: var(--ink-4); font-size: 10px; text-transform: uppercase; }
