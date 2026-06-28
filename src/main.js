@@ -176,7 +176,7 @@ timelineTicks.append('text')
 const eventPopup = timelineTicks.filter(d => milestoneEvents[d])
     .append('g')
     .attr('class', 'tl-event-popup')
-    .attr('transform', 'translate(72, -14)');
+    .attr('transform', 'translate(72, -34)');
 
 eventPopup.append('rect')
     .attr('rx', 4)
