@@ -6,7 +6,7 @@ export default class YieldChart {
         this.config = {
             parentElement: config.parentElement,
             width: 380,
-            height: 130,
+            height: 140,
         };
         this.initViz();
     }
@@ -16,7 +16,7 @@ export default class YieldChart {
             .attr('viewBox', `0 0 ${this.config.width} ${this.config.height}`)
             .attr('preserveAspectRatio', 'none');
 
-        this.margin = { top: 4, right: 10, bottom: 34, left: 50 };
+        this.margin = { top: 4, right: 10, bottom: 40, left: 50 };
         this.innerWidth = this.config.width - this.margin.left - this.margin.right;
         this.innerHeight = this.config.height - this.margin.top - this.margin.bottom;
 
@@ -123,7 +123,7 @@ export default class YieldChart {
         this.g.append('text')
             .attr('class', 'axis-title')
             .attr('x', this.innerWidth / 2)
-            .attr('y', this.innerHeight + 24)
+            .attr('y', this.innerHeight + 30)
             .attr('text-anchor', 'middle')
             .attr('fill', 'var(--ink-2)')
             .attr('font-size', '11px')
