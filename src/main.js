@@ -393,7 +393,7 @@ function play() {
         if (nextStep) {
             nextStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-    }, 1800);
+    }, 1000);
 }
 
 if (playBtn) {
