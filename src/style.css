@@ -914,6 +914,19 @@ circle.planet:hover {
   filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6)) brightness(1.25);
 }
 
+.solar-system .ss-sun {
+  cursor: pointer;
+  transition: stroke 0.2s ease, stroke-width 0.2s ease, filter 0.2s ease;
+  stroke: transparent;
+  stroke-width: 0;
+}
+
+.solar-system .ss-sun:hover {
+  stroke: var(--white);
+  stroke-width: 1.2px;
+  filter: drop-shadow(0 0 5px rgba(255, 212, 94, 0.85)) brightness(1.3);
+}
+
 /* ── Height-based Responsiveness for Sticky Section ── */
 
 @media (max-height: 780px) {

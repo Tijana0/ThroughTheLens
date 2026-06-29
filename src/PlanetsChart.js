@@ -95,7 +95,23 @@ export default class PlanetsChart {
             .attr('cx', this.ssXScale.range()[0] - 12)
             .attr('cy', this.ssY)
             .attr('r', 4)
-            .attr('fill', '#ffd45e');
+            .attr('fill', '#ffd45e')
+            .on('mouseover', (event) => {
+                const tip = d3.select('#tip');
+                tip.classed('show', true);
+                d3.select('#tip-name').text('The Sun');
+                d3.select('#tip-body').html(`
+                    <div class="t-row"><span class="label">Host Star</span><span class="val">solar system reference</span></div>
+                    <div class="t-row"><span class="label">Type</span><span class="val">G2V Yellow Dwarf</span></div>
+                    <div class="t-row"><span class="label">Mass</span><span class="val">1.0 M☉</span></div>
+                `);
+            })
+            .on('mousemove', (event) => {
+                d3.select('#tip')
+                    .style('left', (event.clientX + 20) + 'px')
+                    .style('top',  (event.clientY - 20) + 'px');
+            })
+            .on('mouseleave', () => d3.select('#tip').classed('show', false));
 
         const node = this.ssGroup.selectAll('.ss-planet')
             .data(this.solarSystem, d => d.planetIdentifier)
