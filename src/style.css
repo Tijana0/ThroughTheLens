@@ -1011,6 +1011,14 @@ circle.planet:hover {
   opacity: 0.2;
 }
 
+.p1-action-btn, .p2-action-btn {
+  transition: color 0.2s ease;
+}
+
+.p1-action-btn:hover, .p2-action-btn:hover {
+  color: var(--ink-1) !important;
+}
+
 
 /* ── Back to Top Button ──── */
 .back-to-top-btn {

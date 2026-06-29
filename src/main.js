@@ -459,5 +459,41 @@ p1FilterSpans.forEach(span => {
     });
 });
 
+// Panel 01 Hide All / Show All
+const p1HideAll = document.getElementById('p1-hide-all');
+const p1ShowAll = document.getElementById('p1-show-all');
+if (p1HideAll && p1ShowAll) {
+    p1HideAll.addEventListener('click', () => {
+        activeP1Methods.clear();
+        p1FilterSpans.forEach(span => span.classList.add('inactive'));
+        hotJupitersChart.updateFilter(activeP1Methods);
+    });
+    p1ShowAll.addEventListener('click', () => {
+        activeP1Methods.clear();
+        ['transit', 'rv', 'imaging', 'microlensing', 'timing', 'other'].forEach(m => activeP1Methods.add(m));
+        p1FilterSpans.forEach(span => span.classList.remove('inactive'));
+        hotJupitersChart.updateFilter(activeP1Methods);
+    });
+}
+
+// Panel 02 Hide All / Show All
+const p2HideAll = document.getElementById('p2-hide-all');
+const p2ShowAll = document.getElementById('p2-show-all');
+if (p2HideAll && p2ShowAll) {
+    p2HideAll.addEventListener('click', () => {
+        activeP2Methods.clear();
+        showP2SolarSystem = false;
+        p2FilterSpans.forEach(span => span.classList.add('inactive'));
+        habitabilityChart.updateFilter(activeP2Methods, showP2SolarSystem);
+    });
+    p2ShowAll.addEventListener('click', () => {
+        activeP2Methods.clear();
+        ['transit', 'rv', 'imaging', 'microlensing', 'timing', 'other'].forEach(m => activeP2Methods.add(m));
+        showP2SolarSystem = true;
+        p2FilterSpans.forEach(span => span.classList.remove('inactive'));
+        habitabilityChart.updateFilter(activeP2Methods, showP2SolarSystem);
+    });
+}
+
 
 
