@@ -415,4 +415,29 @@ window.addEventListener('touchmove', () => {
     if (isPlaying) pause();
 }, { passive: true });
 
+// Panel 02 Method Filtering Logic
+const activeP2Methods = new Set(['Transit', 'Radial Velocity', 'Imaging', 'Microlensing', 'Timing', 'Other']);
+let showP2SolarSystem = true;
+
+const p2FilterSpans = document.querySelectorAll('.p2-filter');
+p2FilterSpans.forEach(span => {
+    span.addEventListener('click', () => {
+        const method = span.getAttribute('data-method');
+        if (method === 'Solar System') {
+            showP2SolarSystem = !showP2SolarSystem;
+            span.classList.toggle('inactive', !showP2SolarSystem);
+        } else {
+            if (activeP2Methods.has(method)) {
+                activeP2Methods.delete(method);
+                span.classList.add('inactive');
+            } else {
+                activeP2Methods.add(method);
+                span.classList.remove('inactive');
+            }
+        }
+        habitabilityChart.updateFilter(activeP2Methods, showP2SolarSystem);
+    });
+});
+
+
 

@@ -205,4 +205,31 @@ export default class HabitabilityChart {
         // Style axes lines
         this.svg.selectAll('.axis line, .axis path').attr('stroke', '#3a425c');
     }
+
+    updateFilter(activeMethods, showSolarSystem) {
+        const t = d3.transition().duration(350);
+
+        // Transition exoplanets
+        this.g.selectAll('.exo-dot')
+            .transition(t)
+            .attr('r', d => {
+                const method = mapMethod(d.discoveryMethod);
+                return activeMethods.has(method) ? 2 : 0;
+            })
+            .attr('opacity', d => {
+                const method = mapMethod(d.discoveryMethod);
+                return activeMethods.has(method) ? 0.35 : 0;
+            })
+            .style('pointer-events', d => {
+                const method = mapMethod(d.discoveryMethod);
+                return activeMethods.has(method) ? 'auto' : 'none';
+            });
+
+        // Transition Solar System reference planets
+        this.g.selectAll('.ss-dot')
+            .transition(t)
+            .attr('r', d => showSolarSystem ? 5 : 0)
+            .attr('opacity', d => showSolarSystem ? 1 : 0)
+            .style('pointer-events', d => showSolarSystem ? 'auto' : 'none');
+    }
 }
