@@ -368,6 +368,7 @@ function pause() {
         playBtn.querySelector('.play-icon').innerHTML = `
           <polygon points="5 3 19 12 5 21 5 3"></polygon>
         `;
+        playBtn.querySelector('.play-btn-text').textContent = 'Play';
     }
 }
 
@@ -378,6 +379,7 @@ function play() {
           <rect x="6" y="4" width="4" height="16"></rect>
           <rect x="14" y="4" width="4" height="16"></rect>
         `;
+        playBtn.querySelector('.play-btn-text').textContent = 'Pause';
     }
 
     playInterval = setInterval(() => {
