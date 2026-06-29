@@ -8,6 +8,8 @@ import CompletenessChart from "./CompletenessChart.js";
 import HabitabilityChart from "./HabitabilityChart.js";
 import CoverageChart from "./CoverageChart.js";
 import HotJupitersChart from "./HotJupitersChart.js";
+let isPlaying = false;
+let playInterval = null;
 
 // parsing functions
 function parseRA(str) {
@@ -196,6 +198,7 @@ eventPopup.append('text')
 timelineTicks
     .style('cursor', 'pointer')
     .on('click', (event, d) => {
+        if (isPlaying) pause();
         const stepIndex = d - 1992;
         const stepEl = document.querySelectorAll('.step')[stepIndex];
         if (stepEl) {
@@ -351,5 +354,66 @@ if (backToTopBtn) {
         });
     });
 }
+
+// Play/Pause Autoplay Logic
+const playBtn = document.getElementById('play-btn');
+
+function pause() {
+    isPlaying = false;
+    if (playInterval) {
+        clearInterval(playInterval);
+        playInterval = null;
+    }
+    if (playBtn) {
+        playBtn.querySelector('.btn-text').textContent = 'Play';
+        playBtn.querySelector('.play-icon').innerHTML = `
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        `;
+    }
+}
+
+function play() {
+    isPlaying = true;
+    if (playBtn) {
+        playBtn.querySelector('.btn-text').textContent = 'Pause';
+        playBtn.querySelector('.play-icon').innerHTML = `
+          <rect x="6" y="4" width="4" height="16"></rect>
+          <rect x="14" y="4" width="4" height="16"></rect>
+        `;
+    }
+
+    playInterval = setInterval(() => {
+        const steps = document.querySelectorAll('.step');
+        const currentYear = lastYear || 1992;
+        let nextIndex = (currentYear - 1992) + 1;
+
+        if (nextIndex >= steps.length) {
+            nextIndex = 0; // Wrap around to the beginning
+        }
+
+        const nextStep = steps[nextIndex];
+        if (nextStep) {
+            nextStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, 3000);
+}
+
+if (playBtn) {
+    playBtn.addEventListener('click', () => {
+        if (isPlaying) {
+            pause();
+        } else {
+            play();
+        }
+    });
+}
+
+window.addEventListener('wheel', () => {
+    if (isPlaying) pause();
+}, { passive: true });
+
+window.addEventListener('touchmove', () => {
+    if (isPlaying) pause();
+}, { passive: true });
 
 

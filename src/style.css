@@ -843,6 +843,11 @@ circle.planet { --op: 1; transition: r 0.4s ease, opacity 0.4s ease, fill 0.4s e
   border-color: var(--rule);
 }
 
+.ll-buttons {
+  gap: 8px;
+  margin-top: 10px;
+}
+
 .solar-system .ss-planet { cursor: pointer; }
 
 /* ── Height-based Responsiveness for Sticky Section ── */
