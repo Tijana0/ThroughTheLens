@@ -6,7 +6,7 @@ export default class YieldChart {
         this.config = {
             parentElement: config.parentElement,
             width: 380,
-            height: 140,
+            height: 130,
         };
         this.initViz();
     }
@@ -16,7 +16,7 @@ export default class YieldChart {
             .attr('viewBox', `0 0 ${this.config.width} ${this.config.height}`)
             .attr('preserveAspectRatio', 'none');
 
-        this.margin = { top: 4, right: 10, bottom: 40, left: 50 };
+        this.margin = { top: 28, right: 15, bottom: 52, left: 65 };
         this.innerWidth = this.config.width - this.margin.left - this.margin.right;
         this.innerHeight = this.config.height - this.margin.top - this.margin.bottom;
 
@@ -25,13 +25,16 @@ export default class YieldChart {
 
         // Prepare Cumulative Stacked Data
         const years = d3.range(1992, 2018);
-        const methods = ['Transit', 'RV', 'Other'];
+        const methods = ['Transit', 'RV', 'Imaging', 'Microlensing', 'Timing', 'Other'];
         
         const mapMethod = (m) => {
             if (!m) return 'Other';
             const ml = m.toLowerCase();
             if (ml.includes('transit')) return 'Transit';
             if (ml.includes('rv') || ml.includes('radial velocity')) return 'RV';
+            if (ml.includes('imaging')) return 'Imaging';
+            if (ml.includes('microlensing')) return 'Microlensing';
+            if (ml.includes('timing')) return 'Timing';
             return 'Other';
         };
 
@@ -53,7 +56,7 @@ export default class YieldChart {
 
         this.colorScale = d3.scaleOrdinal()
             .domain(methods)
-            .range(['#f0a830', '#4a9ef0', '#e84393']);
+            .range(['#f0a830', '#4a9ef0', '#e84393', '#5fb47c', '#ffffff', '#707a9e']);
 
         this.stack = d3.stack().keys(methods);
         this.stackedData = this.stack(cumulativeData);
@@ -118,22 +121,21 @@ export default class YieldChart {
             .attr('class', 'axis y-axis')
             .call(yAxis);
 
-
         // X-axis label
         this.g.append('text')
             .attr('class', 'axis-title')
             .attr('x', this.innerWidth / 2)
-            .attr('y', this.innerHeight + 30)
+            .attr('y', this.innerHeight + 46)
             .attr('text-anchor', 'middle')
             .attr('fill', 'var(--ink-2)')
             .attr('font-size', '11px')
             .text('Discovery Year');
 
-        // Y-axis label (horizontal inside the top left of the chart)
+        // Y-axis label (horizontal at the top left of the chart)
         this.g.append('text')
             .attr('class', 'axis-title')
-            .attr('x', 8)
-            .attr('y', 12)
+            .attr('x', -this.margin.left)
+            .attr('y', -14)
             .attr('text-anchor', 'start')
             .attr('fill', 'var(--ink-2)')
             .attr('font-size', '11px')
