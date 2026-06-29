@@ -206,6 +206,7 @@ export default class PlanetsChart {
 
         this.renderViz();
 
+        d3.select('#ll-showing-prefix').text(this.mode === 'thisYear' ? 'Planets discovered in' : 'Planets showing until');
         d3.select('#ll-year').text(year);
         d3.select('#ll-count').text(this.filteredData.length.toLocaleString());
     }
