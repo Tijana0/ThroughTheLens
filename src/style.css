@@ -899,3 +899,48 @@ circle.planet { --op: 1; transition: r 0.4s ease, opacity 0.4s ease, fill 0.4s e
     line-height: 1.35;
   }
 }
+
+/* ── Back to Top Button ──── */
+.back-to-top-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(10, 15, 36, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--rule);
+  color: var(--ink-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.back-to-top-btn:hover {
+  color: var(--ink-1);
+  border-color: rgba(74, 158, 240, 0.6);
+  background: rgba(15, 23, 56, 0.85);
+  transform: translateY(-3px);
+  box-shadow: 0 0 16px rgba(74, 158, 240, 0.35);
+}
+
+.back-to-top-btn:active {
+  transform: translateY(-1px);
+}
+
+.back-to-top-btn.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
