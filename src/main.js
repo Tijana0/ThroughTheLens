@@ -426,18 +426,37 @@ p2FilterSpans.forEach(span => {
     span.addEventListener('click', () => {
         const method = span.getAttribute('data-method');
         
-        // Solo behavior: clear everything else, make others inactive
-        activeP2Methods.clear();
-        p2FilterSpans.forEach(s => s.classList.add('inactive'));
+        // Check if all methods and solar system are currently active (default state)
+        const isDefaultState = (activeP2Methods.size === 6 && showP2SolarSystem);
         
-        if (method === 'solar-system') {
-            showP2SolarSystem = true;
+        if (isDefaultState) {
+            // Solo mode: clear everything else, make others inactive
+            activeP2Methods.clear();
+            p2FilterSpans.forEach(s => s.classList.add('inactive'));
+            
+            if (method === 'solar-system') {
+                showP2SolarSystem = true;
+            } else {
+                showP2SolarSystem = false;
+                activeP2Methods.add(method);
+            }
+            span.classList.remove('inactive');
         } else {
-            showP2SolarSystem = false;
-            activeP2Methods.add(method);
+            // Toggle mode: add/remove from current filtered selection
+            if (method === 'solar-system') {
+                showP2SolarSystem = !showP2SolarSystem;
+                span.classList.toggle('inactive', !showP2SolarSystem);
+            } else {
+                if (activeP2Methods.has(method)) {
+                    activeP2Methods.delete(method);
+                    span.classList.add('inactive');
+                } else {
+                    activeP2Methods.add(method);
+                    span.classList.remove('inactive');
+                }
+            }
         }
         
-        span.classList.remove('inactive');
         habitabilityChart.updateFilter(activeP2Methods, showP2SolarSystem);
     });
 });
@@ -450,12 +469,27 @@ p1FilterSpans.forEach(span => {
     span.addEventListener('click', () => {
         const method = span.getAttribute('data-method');
         
-        // Solo behavior: clear everything else, make others inactive
-        activeP1Methods.clear();
-        p1FilterSpans.forEach(s => s.classList.add('inactive'));
+        // Check if all methods are currently active (default state)
+        const isDefaultState = (activeP1Methods.size === 6);
         
-        activeP1Methods.add(method);
-        span.classList.remove('inactive');
+        if (isDefaultState) {
+            // Solo mode: clear everything else, make others inactive
+            activeP1Methods.clear();
+            p1FilterSpans.forEach(s => s.classList.add('inactive'));
+            
+            activeP1Methods.add(method);
+            span.classList.remove('inactive');
+        } else {
+            // Toggle mode: add/remove from current filtered selection
+            if (activeP1Methods.has(method)) {
+                activeP1Methods.delete(method);
+                span.classList.add('inactive');
+            } else {
+                activeP1Methods.add(method);
+                span.classList.remove('inactive');
+            }
+        }
+        
         hotJupitersChart.updateFilter(activeP1Methods);
     });
 });
