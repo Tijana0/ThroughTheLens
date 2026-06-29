@@ -83,7 +83,7 @@ header.cover .sub {
   z-index: 2;
   max-width: 1320px;
   margin: 0 auto;
-  padding: 80px 76px 56px;
+  padding: 80px 40px 56px;
   border-top: 1px solid var(--rule);
 }
 
@@ -215,7 +215,7 @@ body {
 }
 header.cover {
   position: relative; z-index: 2;
-  max-width: 1320px; margin: 0 auto; padding: 56px 76px 28px;
+  max-width: 1320px; margin: 0 auto; padding: 56px 40px 28px;
 }
 header.cover h1 {
   font-family: var(--serif); font-size: 76px; margin: 6px 0 12px;
