@@ -386,7 +386,8 @@ function play() {
         let nextIndex = (currentYear - 1992) + 1;
 
         if (nextIndex >= steps.length) {
-            nextIndex = 0; // Wrap around to the beginning
+            pause();
+            return;
         }
 
         const nextStep = steps[nextIndex];
