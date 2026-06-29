@@ -46,14 +46,13 @@ export default class PlanetsChart {
         this.xScale.domain(d3.extent(fullFiltered, d => d.rightAscension));
         this.yScale.domain(d3.extent(fullFiltered, d => d.declination));
 
-        // Solar System reference set (kept out of the normal dot field)
         this.solarSystem = this.data.filter(d => SS_NAMES.includes(d.planetIdentifier));
 
         // horizontal "mini solar system" layout, spaced by true orbital distance
         this.ssY = cy + 85;
         this.ssXScale = d3.scaleLog()
-            .domain([0.3, 31])          // ~Mercury (0.39 AU) → Neptune (30 AU)
-            .range([cx - 90, cx + 90]); // kept inside the lens clip circle
+            .domain([0.3, 31])
+            .range([cx - 90, cx + 90]);
 
         this.sizeScale = d3.scaleSqrt()
             .range([3,10])
@@ -66,18 +65,18 @@ export default class PlanetsChart {
             .domain(d3.extent(fullFiltered, d => d.distFromSunParsec));
 
         this.zoom = d3.zoom()
-            .scaleExtent([1, 20])  // raised so the tiny planets can be magnified
+            .scaleExtent([1, 20])
             .on('zoom', (event) => {
                 this.config.lensArea.attr('transform', event.transform);
             });
 
         d3.select(this.config.parentElement).call(this.zoom);
 
-        this.drawSolarSystem();     // static layer — drawn once
+        this.drawSolarSystem();
     }
 
     drawSolarSystem() {
-        // gradient per planet → a lit-sphere look
+        // gradient per planet
         const defs = d3.select(this.config.parentElement).append('defs');
         Object.entries(SS_STYLE).forEach(([name, [light, dark]]) => {
             const g = defs.append('radialGradient')
@@ -156,11 +155,11 @@ export default class PlanetsChart {
         const { cx, cy } = this.config;
         const earth = this.solarSystem.find(p => p.planetIdentifier === 'Earth');
         if (!earth) return;
-        const k = 14;   // strong zoom — Earth is tiny
-        const fx = this.ssXScale(earth.SemiMajorAxisAU);  // Earth's x in the row
+        const k = 14;
+        const fx = this.ssXScale(earth.SemiMajorAxisAU);
         const fy = this.ssY;
         const t = d3.zoomIdentity
-            .translate(cx - fx * k, cy - fy * k)          // put Earth at lens center
+            .translate(cx - fx * k, cy - fy * k)
             .scale(k);
         d3.select(this.config.parentElement)
             .transition().duration(750)

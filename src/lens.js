@@ -7,7 +7,7 @@ const LCY   = 230;       // center Y
 export function drawLens(svg) {
     const defs = svg.append('defs');
 
-    // clip path — keeps dots inside the lens circle
+    // keeps dots inside the lens circle
     defs.append('clipPath')
         .attr('id', 'lens-clip')
         .append('circle')

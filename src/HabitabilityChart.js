@@ -54,7 +54,7 @@ export default class HabitabilityChart {
             .domain([0.1, 200000]) // Period in days
             .range([this.innerHeight, 0]);
 
-        // Color exoplanets by discovery method — shared scale with the lens view
+        // Color exoplanets by discovery method, shared scale with the lens view
         this.colorScale = createMethodColorScale();
 
         // Undetectable Region
