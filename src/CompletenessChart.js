@@ -41,8 +41,8 @@ export default class CompletenessChart {
             .padding(0.3);
 
         // Background bars
-        this.g.selectAll('.bg-bar')
-            .data(this.attributes)
+        this.bgBars = this.g.selectAll('.bg-bar')
+            .data(this.attributes, d => d.label)
             .join('rect')
             .attr('class', 'bg-bar')
             .attr('y', d => this.yScale(d.label))
@@ -54,7 +54,7 @@ export default class CompletenessChart {
 
         // Foreground bars
         this.bars = this.g.selectAll('.fill-bar')
-            .data(this.attributes)
+            .data(this.attributes, d => d.label)
             .join('rect')
             .attr('class', 'fill-bar')
             .attr('y', d => this.yScale(d.label))
@@ -64,8 +64,8 @@ export default class CompletenessChart {
             .attr('width', 0);
 
         // Labels
-        this.g.selectAll('.attr-label')
-            .data(this.attributes)
+        this.labels = this.g.selectAll('.attr-label')
+            .data(this.attributes, d => d.label)
             .join('text')
             .attr('class', 'attr-label')
             .attr('y', d => this.yScale(d.label) + this.yScale.bandwidth() / 2)
@@ -85,15 +85,37 @@ export default class CompletenessChart {
             // Treat 0, undefined, null, or NaN as "missing" for completeness
             const filled = batch.filter(d => d[attr.key] !== undefined && d[attr.key] !== null && !isNaN(d[attr.key]) && d[attr.key] !== 0).length;
             return {
+                key: attr.key,
                 label: attr.label,
                 percent: total > 0 ? filled / total : 0
             };
         });
 
+        // Sort ascending
+        completenessData.sort((a, b) => a.percent - b.percent);
+
+        // Update yScale domain based on sorted order
+        this.yScale.domain(completenessData.map(d => d.label));
+
+        const t = this.svg.transition().duration(400);
+
+        // Transition background bars
+        this.bgBars
+            .data(completenessData, d => d.label)
+            .transition(t)
+            .attr('y', d => this.yScale(d.label));
+
+        // Transition foreground bars
         this.bars
-            .data(completenessData)
-            .transition()
-            .duration(300)
+            .data(completenessData, d => d.label)
+            .transition(t)
+            .attr('y', d => this.yScale(d.label))
             .attr('width', d => this.xScale(d.percent));
+
+        // Transition labels
+        this.labels
+            .data(completenessData, d => d.label)
+            .transition(t)
+            .attr('y', d => this.yScale(d.label) + this.yScale.bandwidth() / 2);
     }
 }

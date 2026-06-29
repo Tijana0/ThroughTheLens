@@ -48,9 +48,8 @@ export default class CoverageChart {
             'typeFlag'
         ]);
 
-        const groups = ATTR_GROUPS.map(g => ({
-            title: g.title,
-            rows: g.keys.map(([k, lbl]) => {
+        const groups = ATTR_GROUPS.map(g => {
+            const rows = g.keys.map(([k, lbl]) => {
                 const fillCount = this.data.filter(d => {
                     const val = d[k];
                     if (val === undefined || val === null || val === '') return false;
@@ -60,8 +59,16 @@ export default class CoverageChart {
                     return String(val).trim() !== '';
                 }).length;
                 return { key: k, lbl, fill: fillCount / N };
-            })
-        }));
+            });
+
+            // Sort rows in ascending order of completeness (fill rate)
+            rows.sort((a, b) => a.fill - b.fill);
+
+            return {
+                title: g.title,
+                rows: rows
+            };
+        });
 
         let totalRows = 0;
         groups.forEach(g => totalRows += g.rows.length + 1);
