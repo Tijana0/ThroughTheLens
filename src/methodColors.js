@@ -1,8 +1,6 @@
 import * as d3 from 'd3';
 
-// Single source of truth for discovery-method colors, shared across the lens
-// (PlanetsChart) and the panel scatter plots (HotJupitersChart) so they can't
-// drift apart. Order matches the legend rows in index.html.
+
 export const METHOD_DOMAIN = ['transit', 'rv', 'imaging', 'microlensing', 'timing', 'other'];
 export const METHOD_RANGE  = ['#f0a830', '#4a9ef0', '#c070f8', '#5fb47c', '#ffffff', '#707a9e'];
 

@@ -23,7 +23,6 @@ export default class YieldChart {
         this.g = this.svg.append('g')
             .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
 
-        // Prepare Cumulative Stacked Data
         const years = d3.range(1992, 2018);
         const methods = ['Transit', 'RV', 'Other'];
         
