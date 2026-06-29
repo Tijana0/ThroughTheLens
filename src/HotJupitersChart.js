@@ -132,4 +132,23 @@ export default class HotJupitersChart {
         this.svg.selectAll('.axis line, .axis path').attr('stroke', '#3a425c');
         this.svg.selectAll('.axis text').attr('fill', '#6a7390').attr('font-size', '9px');
     }
+
+    updateFilter(activeMethods) {
+        const t = d3.transition().duration(350);
+
+        this.g.selectAll('.planet-dot')
+            .transition(t)
+            .attr('r', d => {
+                const method = mapMethod(d.discoveryMethod);
+                return activeMethods.has(method) ? 3 : 0;
+            })
+            .attr('opacity', d => {
+                const method = mapMethod(d.discoveryMethod);
+                return activeMethods.has(method) ? 0.5 : 0;
+            })
+            .style('pointer-events', d => {
+                const method = mapMethod(d.discoveryMethod);
+                return activeMethods.has(method) ? 'all' : 'none';
+            });
+    }
 }

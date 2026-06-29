@@ -988,25 +988,26 @@ circle.planet:hover {
   }
 }
 
-/* Panel 2 Filters */
-.p2-filter {
+/* Panel 1 & 2 Filters */
+.p1-filter, .p2-filter {
   cursor: pointer;
   user-select: none;
   transition: opacity 0.2s ease, transform 0.15s ease;
 }
 
-.p2-filter:hover {
+.p1-filter:hover, .p2-filter:hover {
   opacity: 0.8;
   transform: translateY(-1px);
 }
 
-.p2-filter:active {
+.p1-filter:active, .p2-filter:active {
   transform: translateY(0);
 }
 
-.p2-filter.inactive {
+.p1-filter.inactive, .p2-filter.inactive {
   opacity: 0.2;
 }
+
 
 /* ── Back to Top Button ──── */
 .back-to-top-btn {

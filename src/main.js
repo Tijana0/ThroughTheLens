@@ -439,5 +439,23 @@ p2FilterSpans.forEach(span => {
     });
 });
 
+// Panel 01 Method Filtering Logic
+const activeP1Methods = new Set(['transit', 'rv', 'imaging', 'microlensing', 'timing', 'other']);
+
+const p1FilterSpans = document.querySelectorAll('.p1-filter');
+p1FilterSpans.forEach(span => {
+    span.addEventListener('click', () => {
+        const method = span.getAttribute('data-method');
+        if (activeP1Methods.has(method)) {
+            activeP1Methods.delete(method);
+            span.classList.add('inactive');
+        } else {
+            activeP1Methods.add(method);
+            span.classList.remove('inactive');
+        }
+        hotJupitersChart.updateFilter(activeP1Methods);
+    });
+});
+
 
 
