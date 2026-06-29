@@ -443,33 +443,25 @@ footer.foot a {
 
 .right-card.graphs {
   display: grid; 
-  grid-template-rows: 1.35fr 0.65fr; 
-  gap: 16px;
+  grid-template-rows: auto auto 1.3fr auto auto auto 0.7fr; 
+  gap: 4px;
 }
 
-.graph-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  min-height: 0;
-}
-
-.graph-container h3 {
+.right-card.graphs h3 {
   font-family: var(--mono); 
   font-size: 11px; 
   color: var(--ink-3); 
-  margin: 0 0 6px 0;
+  margin: 0;
   letter-spacing: 0.22em; 
   text-transform: uppercase; 
   font-weight: 500;
 }
 
-.graph-container svg { 
-  flex: 1;
+.right-card.graphs svg { 
   width: 100%; 
   height: 100%; 
   display: block; 
-  min-height: 0; 
+  min-height: 90px; 
 }
 
 .narrative {
