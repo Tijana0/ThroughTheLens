@@ -92,8 +92,8 @@ export default class CoverageChart {
 
             g.rows.forEach(r => {
                 const pct = r.fill;
-                // Highlight critical gaps (< 20% completeness) in purple
-                const c = pct < 0.20 ? '#c070f8' : '#8a92a8';
+                // Highlight critical gaps (< 20% completeness) in coral red
+                const c = pct < 0.20 ? '#ff4757' : '#8a92a8';
 
                 this.svg.append('text')
                     .attr('x', this.margin.left - 8)
