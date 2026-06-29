@@ -416,14 +416,14 @@ window.addEventListener('touchmove', () => {
 }, { passive: true });
 
 // Panel 02 Method Filtering Logic
-const activeP2Methods = new Set(['Transit', 'Radial Velocity', 'Imaging', 'Microlensing', 'Timing', 'Other']);
+const activeP2Methods = new Set(['transit', 'rv', 'imaging', 'microlensing', 'timing', 'other']);
 let showP2SolarSystem = true;
 
 const p2FilterSpans = document.querySelectorAll('.p2-filter');
 p2FilterSpans.forEach(span => {
     span.addEventListener('click', () => {
         const method = span.getAttribute('data-method');
-        if (method === 'Solar System') {
+        if (method === 'solar-system') {
             showP2SolarSystem = !showP2SolarSystem;
             span.classList.toggle('inactive', !showP2SolarSystem);
         } else {
