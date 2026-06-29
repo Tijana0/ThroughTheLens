@@ -7,7 +7,7 @@
 
 ---
 
-## 🌟 Key Features
+## Main Features
 
 * **The Telescope Lens (Interactive Scatter Plot):**
   * **Timeline Scrubbing:** Scroll to watch the catalog of over 3,500 planets populate year-by-year in real time.
@@ -23,12 +23,12 @@
 
 ---
 
-## 📊 The Dataset
+## The Dataset
 The project utilizes the **Open Exoplanet Catalogue**, a collaborative database of all confirmed exoplanets. The timeline is filtered from **1992 to 2017** (the height of the Kepler Space Telescope era) to show the most dramatic period of discovery.
 
 ---
 
-## 🚀 How to Run Locally
+## How to Run Locally
 
 ### Prerequisites
 Make sure you have [Node.js](https://nodejs.org/) installed.
