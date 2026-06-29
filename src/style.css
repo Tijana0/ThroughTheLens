@@ -770,7 +770,7 @@ circle.planet:hover {
 /* ── Telescope legend ─────────────────────────────── */
 .lens-legend {
   align-self: center;
-  width: 460px;
+  width: 540px;
   max-width: 100%;
   display: flex;
   flex-direction: column;
@@ -939,6 +939,9 @@ circle.planet:hover {
     width: 440px;
     height: 440px;
   }
+  .lens-legend {
+    width: 440px;
+  }
   .lens-col {
     gap: 12px;
   }
@@ -966,6 +969,9 @@ circle.planet:hover {
   .lens-svg {
     width: 360px;
     height: 360px;
+  }
+  .lens-legend {
+    width: 360px;
   }
   .lens-col {
     gap: 8px;
