@@ -638,7 +638,16 @@ footer.foot a {
 .glitch-3 { animation: flicker 1.3s steps(8, end) infinite, jitter 0.5s steps(6, end) infinite; }
 .glitch-4 { animation: flicker 0.9s steps(8, end) infinite, jitter 0.32s steps(6, end) infinite; }
 
-circle.planet { --op: 1; transition: r 0.4s ease, opacity 0.4s ease, fill 0.4s ease; }
+circle.planet { 
+  --op: 1; 
+  transition: r 0.2s ease, opacity 0.2s ease, fill 0.2s ease, stroke 0.2s ease, stroke-width 0.2s ease; 
+  cursor: pointer;
+}
+circle.planet:hover {
+  stroke: var(--white);
+  stroke-width: 1px;
+  opacity: 1 !important;
+}
 
 
 /* Planet Timeline Styles (from main) */
@@ -882,7 +891,28 @@ circle.planet { --op: 1; transition: r 0.4s ease, opacity 0.4s ease, fill 0.4s e
   transform: scale(0.98);
 }
 
-.solar-system .ss-planet { cursor: pointer; }
+.solar-system .ss-planet { 
+  cursor: pointer; 
+}
+
+.solar-system .ss-planet circle,
+.solar-system .ss-planet ellipse {
+  transition: stroke 0.2s ease, stroke-width 0.2s ease, filter 0.2s ease;
+  stroke: transparent;
+  stroke-width: 0;
+}
+
+.solar-system .ss-planet:hover circle {
+  stroke: var(--white);
+  stroke-width: 1px;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6)) brightness(1.25);
+}
+
+.solar-system .ss-planet:hover ellipse {
+  stroke: #ffffff;
+  stroke-width: 0.8px;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6)) brightness(1.25);
+}
 
 /* ── Height-based Responsiveness for Sticky Section ── */
 
