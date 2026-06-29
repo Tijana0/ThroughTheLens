@@ -365,7 +365,6 @@ function pause() {
         playInterval = null;
     }
     if (playBtn) {
-        playBtn.querySelector('.btn-text').textContent = 'Play';
         playBtn.querySelector('.play-icon').innerHTML = `
           <polygon points="5 3 19 12 5 21 5 3"></polygon>
         `;
@@ -375,7 +374,6 @@ function pause() {
 function play() {
     isPlaying = true;
     if (playBtn) {
-        playBtn.querySelector('.btn-text').textContent = 'Pause';
         playBtn.querySelector('.play-icon').innerHTML = `
           <rect x="6" y="4" width="4" height="16"></rect>
           <rect x="14" y="4" width="4" height="16"></rect>
@@ -395,7 +393,7 @@ function play() {
         if (nextStep) {
             nextStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-    }, 3000);
+    }, 1800);
 }
 
 if (playBtn) {

@@ -55,7 +55,14 @@
 
     <!-- lens -->
     <div class="lens-col">
-      <svg class="lens-svg" id="lens-svg" viewBox="0 0 460 460"></svg>
+      <div class="lens-wrapper">
+        <svg class="lens-svg" id="lens-svg" viewBox="0 0 460 460"></svg>
+        <button id="play-btn" class="lens-play-btn" aria-label="Play timeline" type="button">
+          <svg class="play-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+        </button>
+      </div>
 
       <div class="lens-legend" id="lens-legend">
         <div class="ll-row ll-top">
@@ -77,15 +84,6 @@
             <span class="ll-track"><span class="ll-thumb"></span></span>
           </label>
           <span>Show Solar System</span>
-        </div>
-
-        <div class="ll-row ll-buttons">
-          <button id="play-btn" class="ll-btn" type="button">
-            <svg class="play-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 4px; display: inline-block; vertical-align: middle;">
-              <polygon points="5 3 19 12 5 21 5 3"></polygon>
-            </svg>
-            <span class="btn-text">Play</span>
-          </button>
           <button id="ss-zoom-btn" class="ll-btn" type="button">Zoom to Earth</button>
         </div>
 
