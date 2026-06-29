@@ -3,7 +3,7 @@
 
 *Through the Lens* is an interactive scrollytelling web application that visualizes the history of exoplanet discoveries from the first confirmed detection in 1992 up to 2017. By mapping orbital and physical parameters, the project tells a narrative of human technological progress, our observational biases, and the vast scale of our ignorance.
 
-![Through the Lens Screenshot](screenshot.png)
+![Through the Lens Screenshot](Screenshot.png)
 
 ---
 
