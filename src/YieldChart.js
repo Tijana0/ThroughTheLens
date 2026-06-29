@@ -6,7 +6,7 @@ export default class YieldChart {
         this.config = {
             parentElement: config.parentElement,
             width: 380,
-            height: 130,
+            height: 155,
         };
         this.initViz();
     }
