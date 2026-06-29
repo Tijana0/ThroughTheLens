@@ -25,16 +25,13 @@ export default class YieldChart {
 
         // Prepare Cumulative Stacked Data
         const years = d3.range(1992, 2018);
-        const methods = ['Transit', 'RV', 'Imaging', 'Microlensing', 'Timing', 'Other'];
+        const methods = ['Transit', 'RV', 'Other'];
         
         const mapMethod = (m) => {
             if (!m) return 'Other';
             const ml = m.toLowerCase();
             if (ml.includes('transit')) return 'Transit';
             if (ml.includes('rv') || ml.includes('radial velocity')) return 'RV';
-            if (ml.includes('imaging')) return 'Imaging';
-            if (ml.includes('microlensing')) return 'Microlensing';
-            if (ml.includes('timing')) return 'Timing';
             return 'Other';
         };
 
@@ -56,7 +53,7 @@ export default class YieldChart {
 
         this.colorScale = d3.scaleOrdinal()
             .domain(methods)
-            .range(['#f0a830', '#4a9ef0', '#e84393', '#5fb47c', '#ffffff', '#707a9e']);
+            .range(['#f0a830', '#4a9ef0', '#e84393']);
 
         this.stack = d3.stack().keys(methods);
         this.stackedData = this.stack(cumulativeData);
