@@ -557,5 +557,16 @@ llFilterSpans.forEach(span => {
     });
 });
 
+// Lens Show All
+const llShowAll = document.getElementById('ll-show-all');
+if (llShowAll) {
+    llShowAll.addEventListener('click', () => {
+        activeLensMethods.clear();
+        ['transit', 'rv', 'imaging', 'microlensing', 'timing', 'other'].forEach(m => activeLensMethods.add(m));
+        llFilterSpans.forEach(span => span.classList.remove('inactive'));
+        planets.updateFilter(activeLensMethods);
+    });
+}
+
 
 
