@@ -27,6 +27,7 @@ export default class PlanetsChart {
 
         this.mode = 'cumulative';   // or 'thisYear'
         this.currentYear = null;
+        this.activeMethods = new Set(['transit', 'rv', 'imaging', 'microlensing', 'timing', 'other']);
 
         this.initViz();
     }
@@ -183,6 +184,11 @@ export default class PlanetsChart {
         this.filteredData = this.data.filter(d => {
             if (isNaN(d.rightAscension) || isNaN(d.declination)) return false;
             if (isNaN(d.discoveryYear) || d.discoveryYear <= 0) return false;
+
+            // Check if method is active
+            const method = mapMethod(d.discoveryMethod);
+            if (this.activeMethods && !this.activeMethods.has(method)) return false;
+
             if (!year) return true;
             return this.mode === 'thisYear'
                 ? d.discoveryYear === year      // only planets discovered this year
@@ -215,20 +221,34 @@ export default class PlanetsChart {
         if (this.currentYear != null) this.updateViz(this.currentYear);
     }
 
+    updateFilter(activeMethods) {
+        this.activeMethods = activeMethods;
+        if (this.currentYear != null) this.updateViz(this.currentYear);
+    }
+
     renderViz() {
         const { lensArea } = this.config;
 
         const circles = lensArea.selectAll('.planet')
             .data(this.filteredData, d => d.planetIdentifier)
-            .join('circle')
-            .attr('class', d => 'planet' + (d.isIncomplete ? ' glitch-2' : ''))
-            .attr('fill', d => this.colorScale(mapMethod(d.discoveryMethod)))
-            .style('--op', d => d.baseOpacity)
-            .attr('opacity', d => d.baseOpacity)
-            .style('animation-delay', d => d.isIncomplete ? (-Math.random() * 3).toFixed(2) + 's' : null)
-            .attr('cx', d => this.xScale(d.rightAscension))
-            .attr('cy', d => this.yScale(d.declination))
-            .attr('r', d => isNaN(d.radiusJpt) ? 2 : this.sizeScale(d.radiusJpt));
+            .join(
+                enter => enter.append('circle')
+                    .attr('class', d => 'planet' + (d.isIncomplete ? ' glitch-2' : ''))
+                    .attr('fill', d => this.colorScale(mapMethod(d.discoveryMethod)))
+                    .style('--op', d => d.baseOpacity)
+                    .style('animation-delay', d => d.isIncomplete ? (-Math.random() * 3).toFixed(2) + 's' : null)
+                    .attr('cx', d => this.xScale(d.rightAscension))
+                    .attr('cy', d => this.yScale(d.declination))
+                    .attr('r', d => isNaN(d.radiusJpt) ? 2 : this.sizeScale(d.radiusJpt))
+                    .attr('opacity', 0)
+                    .call(enter => enter.transition().duration(250).attr('opacity', d => d.baseOpacity)),
+                update => update
+                    .attr('cx', d => this.xScale(d.rightAscension))
+                    .attr('cy', d => this.yScale(d.declination))
+                    .attr('r', d => isNaN(d.radiusJpt) ? 2 : this.sizeScale(d.radiusJpt)),
+                exit => exit
+                    .call(exit => exit.transition().duration(200).attr('opacity', 0).remove())
+            );
 
         if (this.ssGroup) this.ssGroup.raise();
 

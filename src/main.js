@@ -517,5 +517,49 @@ if (p2ShowAll) {
     });
 }
 
+// Lens Method Filtering Logic
+const activeLensMethods = new Set(['transit', 'rv', 'imaging', 'microlensing', 'timing', 'other']);
+const llFilterSpans = document.querySelectorAll('.ll-filter');
+
+llFilterSpans.forEach(span => {
+    span.addEventListener('click', () => {
+        const method = span.getAttribute('data-method');
+        
+        // Check if all methods are currently active (default state)
+        const isDefaultState = (activeLensMethods.size === 6);
+        
+        if (isDefaultState) {
+            // Solo mode: clear everything else, make others inactive
+            activeLensMethods.clear();
+            llFilterSpans.forEach(s => s.classList.add('inactive'));
+            
+            activeLensMethods.add(method);
+            span.classList.remove('inactive');
+        } else {
+            // Toggle mode: add/remove from current filtered selection
+            if (activeLensMethods.has(method)) {
+                activeLensMethods.delete(method);
+                span.classList.add('inactive');
+            } else {
+                activeLensMethods.add(method);
+                span.classList.remove('inactive');
+            }
+        }
+        
+        planets.updateFilter(activeLensMethods);
+    });
+});
+
+// Lens Show All
+const llShowAll = document.getElementById('ll-show-all');
+if (llShowAll) {
+    llShowAll.addEventListener('click', () => {
+        activeLensMethods.clear();
+        ['transit', 'rv', 'imaging', 'microlensing', 'timing', 'other'].forEach(m => activeLensMethods.add(m));
+        llFilterSpans.forEach(span => span.classList.remove('inactive'));
+        planets.updateFilter(activeLensMethods);
+    });
+}
+
 
 
