@@ -538,8 +538,15 @@ llFilterSpans.forEach(span => {
         } else {
             // Toggle mode: add/remove from current filtered selection
             if (activeLensMethods.has(method)) {
-                activeLensMethods.delete(method);
-                span.classList.add('inactive');
+                // If it's the last active method, clicking it resets and shows all!
+                if (activeLensMethods.size === 1) {
+                    activeLensMethods.clear();
+                    ['transit', 'rv', 'imaging', 'microlensing', 'timing', 'other'].forEach(m => activeLensMethods.add(m));
+                    llFilterSpans.forEach(s => s.classList.remove('inactive'));
+                } else {
+                    activeLensMethods.delete(method);
+                    span.classList.add('inactive');
+                }
             } else {
                 activeLensMethods.add(method);
                 span.classList.remove('inactive');
@@ -549,17 +556,6 @@ llFilterSpans.forEach(span => {
         planets.updateFilter(activeLensMethods);
     });
 });
-
-// Lens Show All
-const llShowAll = document.getElementById('ll-show-all');
-if (llShowAll) {
-    llShowAll.addEventListener('click', () => {
-        activeLensMethods.clear();
-        ['transit', 'rv', 'imaging', 'microlensing', 'timing', 'other'].forEach(m => activeLensMethods.add(m));
-        llFilterSpans.forEach(span => span.classList.remove('inactive'));
-        planets.updateFilter(activeLensMethods);
-    });
-}
 
 
 
