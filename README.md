@@ -11,7 +11,7 @@
 
 * **The Telescope Lens (Interactive Scatter Plot):**
   * **Timeline Scrubbing:** Scroll to watch the catalog of over 3,500 planets populate year-by-year in real time.
-  * **The Flicker Effect (Visualizing Gaps):** Planets with missing critical data parameters (such as mass, radius, or temperature) flicker on the screen-representing the "ghosts" of our catalog whose full stories are still unwritten.
+  * **The Flicker Effect (Visualizing Gaps):** Planets with missing critical data parameters (such as mass, radius, or temperature) flicker on the screen, representing the "ghosts" of our catalog whose full stories are still unwritten.
   * **Solar System Zoom:** A logarithmic scale reference row of our own solar system with a physical "Zoom to Earth" button, showing how invisible our home planet would be to current exoplanetary detection instruments.
 * **Annual Yield & Completeness Dashboard (Figure A & B):**
   * **Figure A (Discoveries per Year):** A cumulative stacked area chart showing the annual yield of discovery methods over time: *Transit* (yellow), *Radial Velocity* (blue), and *Others* (pink).
